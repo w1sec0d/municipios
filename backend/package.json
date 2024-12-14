@@ -4,6 +4,8 @@
   "description": "CRUD básico de una aplicación de municipios creada como laboratorio #0 de la asignatura\r Ingeniería de Software II",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -13,5 +15,8 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }
