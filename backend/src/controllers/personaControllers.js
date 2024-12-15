@@ -2,7 +2,7 @@ const database = require("../../database.js");
 
 
 // ----------------TRAER TODAS LAS PERSONAS CON ATRIBUTOS----------
-const getPersons = async (req, res) => {
+const getPersona = async (req, res) => {
     database.query('SELECT * FROM PERSONA', (err, rows) => {
         if (err) {
             console.error(err);
@@ -15,7 +15,7 @@ const getPersons = async (req, res) => {
 //-----------------------------------------------------------------
 
 // ---------------- INSERTAR UNA PERSONA -------------------------
-const insertPerson = async (req, res) => {
+const insertPersona = async (req, res) => {
     const { id_persona, nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona } = req.body;
    
     //Si las llaves foraneas no se envian, se asigna null.
@@ -41,7 +41,7 @@ const insertPerson = async (req, res) => {
 //-----------------------------------------------------------------
 
 //------------------------ELIMINAR UNA PERSONA---------------------
-const deletePerson = async (req, res) => {
+const deletePersona = async (req, res) => {
     const { id } = req.params;
     const query = `DELETE FROM PERSONA WHERE id_persona = ${id}`;
     database.query(query, (err, rows) => {
@@ -56,7 +56,7 @@ const deletePerson = async (req, res) => {
 //-----------------------------------------------------------------
 
 // Actualizar una persona.
-const updatePerson = async (req, res) => {
+const updatePersona = async (req, res) => {
     const { id } = req.params;
     const { nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona } = req.body;
 
@@ -89,8 +89,8 @@ const updatePerson = async (req, res) => {
 
 
 module.exports = {
-    getPersons,
-    insertPerson,
-    deletePerson,
-    updatePerson
+    getPersona,
+    insertPersona,
+    deletePersona,
+    updatePersona
 };
