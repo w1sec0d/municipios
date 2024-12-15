@@ -55,3 +55,8 @@ Ingeniería de Software II
     ```sh
     npm run dev
     ```
+### Variables de entorno    
+Para ejecutar el proyecto es necesario tener dos archivos .env, uno en ./backend y otro en ./frontend
+
+El .env del backend recibe las variables MYSQL_ADDON_HOST, MYSQL_ADDON_DB, MYSQL_ADDON_USER, MYSQL_ADDON_PORT
+MYSQL_ADDON_PASSWORD y MYSQL_ADDON_URI como parámetros de conexión a la base de datos          
