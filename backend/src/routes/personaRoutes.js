@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../database.js");
-const {getPersons, insertPerson, deletePerson, updatePerson} = require("../controllers/personControllers.js");
+const {getPersons, insertPerson, deletePerson, updatePerson} = require("../controllers/personaControllers.js");
 
 //rutas para la tabla persona.
 
