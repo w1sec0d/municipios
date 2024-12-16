@@ -31,6 +31,13 @@ const validationRules = {
         niveles: yup.number().required('Los niveles son obligatorios').positive('Los niveles deben ser positivos').integer('Los niveles deben ser un número entero'),
         MUNICIPIO_id_municipio: yup.number().required('La ID municipio es obligatoria').positive('La ID municipio debe ser positiva').integer('La ID municipio debe ser un número entero')
     }),
+
+    //VALIDACIONES DEPARTAMENTOS
+    departamentos: yup.object().shape({
+        nombre: yup.string().required('El nombre es obligatorio'),
+        area: yup.number().required('El area es obligatoria').positive('El area debe ser positiva'),
+        poblacion: yup.number().required('La población es obligatoria').positive('La población debe ser positiva').integer('La población debe ser un número entero')
+    }),
 };
 
 
