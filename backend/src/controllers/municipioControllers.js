@@ -19,14 +19,13 @@ const insertMunicipio = async (req, res) => {
     const { nombre, area, presupuesto, PERSONA_id_persona, DEPARTAMENTO_id_departamento} = req.body
 
     //Si las llaves foraneas no se envian, se asigna null.
-    const departamentoId= DEPARTAMENTO_id_departamento ? DEPARTAMENTO_id_departamento : null;
     const personaId= PERSONA_id_persona ? PERSONA_id_persona : null;
 
     const query = 
     `INSERT INTO MUNICIPIO (nombre, area, presupuesto, 
     PERSONA_id_persona, DEPARTAMENTO_id_departamento)
     VALUES ('${nombre}', ${area}, ${presupuesto}, 
-    ${personaId}, ${departamentoId})`;    
+    ${personaId}, ${DEPARTAMENTO_id_departamento})`;    
 
     database.query(query, (err, rows) => {
         if (err) {
