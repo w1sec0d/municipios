@@ -16,7 +16,7 @@ const getPersona = async (req, res) => {
 
 // ---------------- INSERTAR UNA PERSONA -------------------------
 const insertPersona = async (req, res) => {
-    const { id_persona, nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona } = req.body;
+    const {nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona } = req.body;
    
     //Si las llaves foraneas no se envian, se asigna null al igual que el sexo.
     const viviendaID= VIVIENDA_id_vivienda ? VIVIENDA_id_vivienda : null;
@@ -26,8 +26,8 @@ const insertPersona = async (req, res) => {
     //llamado para insertar una persona.
     const query = 
     `INSERT INTO PERSONA 
-    (id_persona,nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona) 
-    VALUES (${id_persona}, '${nombre}', '${telefono}', ${edad}, 
+    (nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona) 
+    VALUES ('${nombre}', '${telefono}', ${edad}, 
     '${sx}', ${viviendaID}, ${personaID})`;
 
     database.query(query, (err, rows) => {

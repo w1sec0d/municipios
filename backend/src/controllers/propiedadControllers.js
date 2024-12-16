@@ -47,6 +47,7 @@ const deletePropiedad = async (req, res) => {
     });
 }
 //-----------------------------------------------------------------
+//-------------------- ACTUALIZAR UN PROPIEDAD ---------------------
 const updatePropiedad = async (req, res) => {
     const { id1,id2 } = req.params;
     const {PERSONA_id_persona, VIVIENDA_id_vivienda} = req.body;
@@ -66,6 +67,7 @@ const updatePropiedad = async (req, res) => {
         res.send('Propiedad updated successfully.');
     });
 }
+//-----------------------------------------------------------------
 
 module.exports = {  
     getPropiedad,
