@@ -5,19 +5,30 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import tableColumns from "./columns";
-import useFetchData from "../hooks/useFetchData";
+import useFetchData from "../../hooks/useFetchData";
+import ConfirmDialog from "../ConfirmDialog";
+import { useState } from "react";
 
 
 
 const Table = ({ apiRoute }) => {
-
   // Fetches data from api based on apiRoute
   const { data, loading, error } = useFetchData(apiRoute);
+  const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false);
+  const [rowToDelete, setRowToDelete] = useState(null);
 
   const handleEditUser = (info)=>{console.log(info);}
   const handleCreateUser = (info)=>{console.log(info);}
-  const openDeleteConfirmModal = (row)=> {
-    
+  const handleDeleteUser = (row)=> {
+    console.log("deleting id:");
+    console.log(row.original.id);
+    setDeleteConfirmModalOpen(false);
+  }
+
+
+  const openDeleteConfirmModal = (row) => {
+    setRowToDelete(row);
+    setDeleteConfirmModalOpen(true);
   }
 
   const table = useMaterialReactTable({
@@ -83,6 +94,7 @@ const Table = ({ apiRoute }) => {
   return (
     <div style={{ padding: "20px" }}>
       <MaterialReactTable table={table}/>
+      <ConfirmDialog isOpen={deleteConfirmModalOpen} setIsOpen={setDeleteConfirmModalOpen} onConfirm={()=>handleDeleteUser(rowToDelete)}/>
     </div>
   );
 };

@@ -5,14 +5,15 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import Table from './tables/Table.jsx';
-
+import Table from './components/tables/table.jsx'; // Generado con Copilot
+import ConfirmDialog from './components/ConfirmDialog.jsx';
 
 //Funcion para probar la conexion con el backend
 
 const App = () => {
   return (
     <>
+      <ConfirmDialog />
       <Header />
       <Router>
         <Routes>
