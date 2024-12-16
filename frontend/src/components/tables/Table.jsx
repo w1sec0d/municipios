@@ -8,7 +8,7 @@ import tableColumns from "./columns";
 import useFetchData from "../../hooks/useFetchData";
 import ConfirmDialog from "../ConfirmDialog";
 import { useState } from "react";
-import { getData, createData, updateData, deleteData } from "../../services/apiService";
+import {createData, updateData, deleteData } from "../../services/apiService";
 
 
 const Table = ({ apiRoute }) => {
@@ -20,7 +20,7 @@ const Table = ({ apiRoute }) => {
   const handleEdit = (info)=>{
     console.log("editing:");
     console.log(info.values);
-    updateData(apiRoute, info.values.id, info.values);
+    updateData(apiRoute, info.values.id_persona, info.values);
   }
   const handleCreate = (info)=>{
     console.log("creating:");
@@ -29,9 +29,9 @@ const Table = ({ apiRoute }) => {
   }
   const handleDelete = (row)=> {
     console.log("deleting id:");
-    console.log(row.original.id);
+    console.log(row.original.id_persona);
     setDeleteConfirmModalOpen(false);
-    deleteData(apiRoute, row.original.id);
+    deleteData(apiRoute, row.original.id_persona);
   }
 
 
