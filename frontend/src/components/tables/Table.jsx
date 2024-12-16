@@ -8,7 +8,7 @@ import tableColumns from "./columns";
 import useFetchData from "../../hooks/useFetchData";
 import ConfirmDialog from "../ConfirmDialog";
 import { useState } from "react";
-
+import { getData, createData, updateData, deleteData } from "../../services/apiService";
 
 
 const Table = ({ apiRoute }) => {
@@ -17,18 +17,21 @@ const Table = ({ apiRoute }) => {
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false);
   const [rowToDelete, setRowToDelete] = useState(null);
 
-  const handleEditUser = (info)=>{
+  const handleEdit = (info)=>{
     console.log("editing user:");
     console.log(info.values);
+    updateData(apiRoute, info.values.id, info.values);
   }
-  const handleCreateUser = (info)=>{
+  const handleCreate = (info)=>{
     console.log("creating user:");
     console.log(info.values);
+    createData(apiRoute, info.values);
   }
-  const handleDeleteUser = (row)=> {
+  const handleDelete = (row)=> {
     console.log("deleting id:");
     console.log(row.original.id);
     setDeleteConfirmModalOpen(false);
+    deleteData(apiRoute, row.original.id);
   }
 
 
@@ -43,8 +46,8 @@ const Table = ({ apiRoute }) => {
     enableColumnOrdering: true, 
     enableEditing: true,
     createDisplayMode: 'modal',
-    onCreatingRowSave: handleCreateUser,
-    onEditingRowSave: handleEditUser,
+    onCreatingRowSave: handleCreate,
+    onEditingRowSave: handleEdit,
     getRowId: (row) => row.id,
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
@@ -100,7 +103,7 @@ const Table = ({ apiRoute }) => {
   return (
     <div style={{ padding: "20px" }}>
       <MaterialReactTable table={table}/>
-      <ConfirmDialog isOpen={deleteConfirmModalOpen} setIsOpen={setDeleteConfirmModalOpen} onConfirm={()=>handleDeleteUser(rowToDelete)}/>
+      <ConfirmDialog isOpen={deleteConfirmModalOpen} setIsOpen={setDeleteConfirmModalOpen} onConfirm={()=>handleDelete(rowToDelete)}/>
     </div>
   );
 };
