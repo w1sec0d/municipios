@@ -1,18 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import Header from './header.jsx';
-import PersonaTable from './tables/persona.jsx';
-import MunicipioTable from './tables/municipio.jsx';
-import ViviendaTable from './tables/vivienda.jsx';
-import EventoTable from './tables/evento.jsx';
-import DepartamentoTable from './tables/departamento.jsx';
-import ProyectoTable from './tables/proyecto.jsx';
 
 import {
   BrowserRouter as Router,
   Routes,
   Route,
 } from "react-router-dom";
+import Table from './tables/Table.jsx';
 
 
 //Funcion para probar la conexion con el backend
@@ -26,22 +21,22 @@ const App = () => {
           <Route path="/" element={<h1>HOLA</h1>} />
           <Route 
             path="/Persona" 
-            element={<PersonaTable />} />
+            element={<Table apiRoute="persona" />} />
           <Route 
             path="/Municipio" 
-            element={<MunicipioTable />} />
+            element={<Table apiRoute="municipio" />} />
           <Route 
             path="/Vivienda" 
-            element={<ViviendaTable />} />
+            element={<Table apiRoute="vivienda" />} />
           <Route 
             path="/Departamento" 
-            element={<DepartamentoTable />} />
+            element={<Table apiRoute="departamento" />} />
           <Route 
             path="/Evento" 
-            element={<EventoTable />} />
+            element={<Table apiRoute="evento" />} />
           <Route 
             path="/Proyecto" 
-            element={<ProyectoTable />} />
+            element={<Table apiRoute="proyecto" />} />
         </Routes>
       </Router>
     </>
