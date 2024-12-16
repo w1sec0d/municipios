@@ -2,21 +2,19 @@ import { useState, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
 import PropTypes from "prop-types";
 import tableColumns from "./columns";
+import useFetchData from "../hooks/useFetchData";
 
 const Table = ({ apiRoute }) => {
-  const [data, setData] = useState([]);
-
   // Fetch data from the API at first render
   // It fetches from apiroute prop
-  useEffect(() => {
-    const fetchData = async (route) => {
-      const response = await fetch(import.meta.env.VITE_API_URL + "/" + route);
-      const data = await response.json();
-      setData(data);
-    };
-    fetchData(apiRoute);
-  }, [apiRoute]);
+  const { data, loading, error } = useFetchData(apiRoute);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  } else if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+  
   return (
     <div style={{ padding: "20px" }}>
       <MaterialReactTable columns={tableColumns[apiRoute]} data={data} />
