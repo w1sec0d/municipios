@@ -23,16 +23,8 @@ const columns = {
   ],
   municipio: [
     {
-      accessorKey: "id_municipio",
+      accessorKey: "id",
       header: "ID",
-    },
-    {
-      accessorKey: "PERSONA_id_persona",
-      header: "Gobernante",
-    },
-    {
-      accessorKey: "DEPARTAMENTO_id_departamento",
-      header: "Departamento",
     },
     {
       accessorKey: "nombre",
