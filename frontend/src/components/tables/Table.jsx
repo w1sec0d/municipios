@@ -23,7 +23,7 @@ const Table = ({ apiRoute }) => {
 
   const handleEdit = async (info)=>{
     console.log("editing:");
-    console.log(info);
+    console.log({info});
     await updateData(apiRoute, info.values[idName], info.values);
     setReload(!reload);
   }
@@ -54,8 +54,9 @@ const Table = ({ apiRoute }) => {
     createDisplayMode: 'modal',
     onCreatingRowSave: handleCreate,
     onEditingRowSave: handleEdit,
-    getRowId: (row) => row.id,
-    renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
+    getRowId: (row) => row[idName],
+    renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => {
+      return (
       <>
         <DialogTitle variant="h3">Crear nuevo</DialogTitle>
         <DialogContent
@@ -66,8 +67,7 @@ const Table = ({ apiRoute }) => {
         <DialogActions>
           <MRT_EditActionButtons variant="text" table={table} row={row} />
         </DialogActions>
-      </>
-    ),
+      </>)},
     renderRowActions: ({ row, table }) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
         <Tooltip title="Edit">
