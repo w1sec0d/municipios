@@ -16,5 +16,6 @@ router.delete('/deletePersona/:id', deletePersona);
 
 //Actualizar una persona
 router.put('/updatePersona/:id', updatePersona);
-//
+
+
 module.exports = router;
