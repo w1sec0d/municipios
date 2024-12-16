@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
 import PropTypes from "prop-types";
 import tableColumns from "./columns";
