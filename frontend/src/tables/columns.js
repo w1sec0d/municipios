@@ -1,6 +1,10 @@
 const columns = {
   persona: [
     {
+      accessorKey: "id", // Match the key in the data
+      header: "ID", // Displayed in the table header
+    },
+    {
       accessorKey: "nombre", // Match the key in the data
       header: "Nombre", // Displayed in the table header
     },
