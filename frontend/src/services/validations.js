@@ -21,7 +21,15 @@ const validationRules = {
         area: yup.number('El area debe ser un valor numérico').required('El area es obligatoria').positive('El area debe ser positiva'),
         presupuesto: yup.number('El presupuesto debe ser un valor numérico').required('El presupuesto es obligatorio').positive('El presupuesto debe ser positivo'),
         PERSONA_id_persona: yup.number('La ID gobernante debe ser un número').integer('La ID departamento debe ser un número entero').nullable(),
-        DEPARTAMENTO_id_departamento: yup.number('La ID departamento debe ser un número entero').integer('La ID departamento debe ser un número entero').required('La ID departamento es obligatoria')
+        DEPARTAMENTO_id_departamento: yup.number('La ID departamento debe ser un número entero').required('La ID departamento es obligatoria').positive('La ID departamento debe ser positiva').integer('La ID departamento debe ser un número entero')
+    }),
+
+    //VALIDACIONES VIVIENDAS
+    viviendas: yup.object().shape({
+        direccion: yup.string().required('La dirección es obligatoria'),
+        capacidad: yup.number().required('La capacidad es obligatoria').positive('La capacidad debe ser positiva').integer('La capacidad debe ser un número entero'),
+        niveles: yup.number().required('Los niveles son obligatorios').positive('Los niveles deben ser positivos').integer('Los niveles deben ser un número entero'),
+        MUNICIPIO_id_municipio: yup.number().required('La ID municipio es obligatoria').positive('La ID municipio debe ser positiva').integer('La ID municipio debe ser un número entero')
     }),
 };
 
