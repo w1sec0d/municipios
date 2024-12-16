@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-const phoneRegExp = /^[+][0-9]{1,3} [0-9]{10}$/;
+const phoneRegExp = /^([+][0-9]{1,3} )?[0-9]{10}$/;
 
 const validationRules = {
   // VALIDACIONES PERSONAS
@@ -8,7 +8,7 @@ const validationRules = {
     nombre: yup.string().required('El nombre es obligatorio'),
     telefono: yup
       .string()
-      .matches(phoneRegExp, 'El telefono debe tener el formato +## ##########')
+      .matches(phoneRegExp, 'El telefono debe tener el formato +## ########## o #########(9)')
       .required('El telefono es obligatorio'),
     // Agrega más campos y reglas según sea necesario
     edad: yup.number().required('La edad es obligatoria').positive('La edad debe ser positiva').integer('La edad debe ser un número entero'),

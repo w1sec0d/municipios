@@ -59,14 +59,25 @@ const Table = ({ apiRoute }) => {
       updateData(apiRoute, transformedValues[idName], transformedValues);
     } catch (validationErrors) {
       console.error("Validation errors:", validationErrors.inner);
-      showValidationErrors(validationErrors, "Error al actualizar los datos");
+      showValidationErrors(validationErrors, "Error al actualizar persona");
     }
   };
-  const handleCreate = (info) => {
+  const handleCreate = async (info) => {
     console.log("creating:");
     console.log(info.values);
-    createData(apiRoute, info.values);
+    const transformedValues = transformEmptyStringsToNull(info.values);
+
+    try {
+      await validationSchemas[apiRoute].validate(transformedValues, {
+        abortEarly: false,
+      });
+      createData(apiRoute, transformedValues);
+    } catch (validationErrors) {
+      console.error("Validation errors:", validationErrors.inner);
+      showValidationErrors(validationErrors, "Error al crear persona");
+    }
   };
+
   const handleDelete = (row) => {
     console.log("deleting id:");
     console.log(row.original.id_persona);
