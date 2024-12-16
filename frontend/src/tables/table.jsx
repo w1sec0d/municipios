@@ -19,23 +19,44 @@ const Table = ({ apiRoute }) => {
     createDisplayMode: 'modal',
     onCreatingRowSave: handleCreateUser,
     onEditingRowSave: handleEditUser,
+    width: '80%',
+    muiTopToolbarProps: {
+      sx: {
+        backgroundColor: '#27272a',
+        color: 'white',
+      }
+    },
+    muiBottomToolbarProps: {
+      sx: {
+        backgroundColor: '#27272a',
+        color: 'white',
+      }
+    },
     //Table header props
     muiTableHeadCellProps: {
       sx: {
-        backgroundColor: '#1F2B7F',
+        backgroundColor: '#27272a',
+        color: '#4FDBFF',
+        fontFamily: 'Raleway',
+      },
+    },
+
+    muiTableBodyCellProps: {
+      sx: {
         color: 'white',
       },
     },
     //Table body props
     muiTableBodyRowProps: ({ row }) => ({
       sx: {
-        backgroundColor: row.id % 2 === 0 ? '#87E6FF' : 'white',
+        backgroundColor: row.id % 2 === 0 ? '#3f3f46' : '#27272a',
         '&:hover': {
-          backgroundColor: '#f3fab4',
+          backgroundColor: '#52525b',
         },
       }
     }),
   })
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -45,6 +66,7 @@ const Table = ({ apiRoute }) => {
 
   return (
     <div style={{ padding: "20px" }}>
+      <h1 className="flex place-content-center text-zinc-100">Lista de { apiRoute }s </h1>
       <MaterialReactTable table={table}/>
     </div>
   );

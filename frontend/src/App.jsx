@@ -1,4 +1,5 @@
 import Header from './header.jsx';
+import Home from './home.jsx';
 
 import {
   BrowserRouter as Router,
@@ -15,7 +16,7 @@ const App = () => {
       <Router>
         <Header/>
         <Routes>
-          <Route path="/" element={<h1>HOLA</h1>} />
+          <Route path="/" element= <Home/> />
           <Route 
             path="/Persona" 
             element={<Table apiRoute="persona" />} />
