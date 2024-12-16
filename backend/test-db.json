@@ -1,5 +1,5 @@
 {
-  "departamento": [
+  "departamentos": [
     {
       "id": "1",
       "nombre": "Boyacá",
@@ -19,7 +19,7 @@
       "poblacion": 1300000
     }
   ],
-  "municipio": [
+  "municipios": [
     {
       "id": "1",
       "PERSONA_id": 1,
@@ -53,7 +53,7 @@
       "presupuesto": 62000000
     }
   ],
-  "vivienda": [
+  "viviendas": [
     {
       "id": "1",
       "MUNICIPIO_id": 1,
@@ -83,7 +83,7 @@
       "niveles": 3
     }
   ],
-  "persona": [
+  "personas": [
     {
       "id": "2",
       "VIVIENDA_id": 2,
@@ -119,7 +119,7 @@
       "sexo": ""
     }
   ],
-  "proyecto": [
+  "proyectos": [
     {
       "id": "1",
       "MUNICIPIO_id": 1,
@@ -141,7 +141,7 @@
       "estado": "Planificado"
     }
   ],
-  "responsable": [
+  "responsables": [
     {
       "PROYECTO_id": 1,
       "PERSONA_id": 1,
@@ -153,7 +153,7 @@
       "id": "9ba9"
     }
   ],
-  "evento": [
+  "eventos": [
     {
       "id": "1",
       "MUNICIPIO_id": 1,

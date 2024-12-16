@@ -1,17 +1,21 @@
 const express = require("express");
 const router = express.Router();
-const {getMunicipios, insertMunicipio, deleteMunicipio,updateMunicipio} = require("../controllers/municipioControllers.js");
+const {
+  getMunicipios,
+  insertMunicipio,
+  deleteMunicipio,
+  updateMunicipio,
+} = require("../controllers/municipioControllers.js");
 
 //rutas para la tabla municipio.
 
 //Ver los municipios
-router.get('/municipio', getMunicipios);
+router.get("/municipios", getMunicipios);
 //Insertar un municipio
-router.post('/insertMunicipio', insertMunicipio);
+router.post("/municipios", insertMunicipio);
 //Eliminar un municipio
-router.delete('/deleteMunicipio/:id', deleteMunicipio);
+router.delete("/municipios/:id", deleteMunicipio);
 //Actualizar un municipio
-router.put('/updateMunicipio/:id', updateMunicipio);
+router.put("/municipios/:id", updateMunicipio);
 
 module.exports = router;
-

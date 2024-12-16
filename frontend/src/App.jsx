@@ -20,22 +20,22 @@ const App = () => {
           <Route path="/" element={<h1>HOLA</h1>} />
           <Route 
             path="/Persona" 
-            element={<Table apiRoute="persona" />} />
+            element={<Table apiRoute="personas" />} />
           <Route 
             path="/Municipio" 
-            element={<Table apiRoute="municipio" />} />
+            element={<Table apiRoute="municipios" />} />
           <Route 
             path="/Vivienda" 
-            element={<Table apiRoute="vivienda" />} />
+            element={<Table apiRoute="viviendas" />} />
           <Route 
             path="/Departamento" 
-            element={<Table apiRoute="departamento" />} />
+            element={<Table apiRoute="departamentos" />} />
           <Route 
             path="/Evento" 
-            element={<Table apiRoute="evento" />} />
+            element={<Table apiRoute="eventos" />} />
           <Route 
             path="/Proyecto" 
-            element={<Table apiRoute="proyecto" />} />
+            element={<Table apiRoute="proyectos" />} />
         </Routes>
       </Router>
     </>
