@@ -5,8 +5,8 @@ import tableColumns from "./columns";
 import useFetchData from "../hooks/useFetchData";
 
 const Table = ({ apiRoute }) => {
-  // Fetch data from the API at first render
-  // It fetches from apiroute prop
+
+  // Fetches data from api based on apiRoute
   const { data, loading, error } = useFetchData(apiRoute);
 
   if (loading) {
@@ -14,7 +14,7 @@ const Table = ({ apiRoute }) => {
   } else if (error) {
     return <div>Error: {error.message}</div>;
   }
-  
+
   return (
     <div style={{ padding: "20px" }}>
       <MaterialReactTable columns={tableColumns[apiRoute]} data={data} />

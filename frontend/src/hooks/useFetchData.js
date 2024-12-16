@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 
 const useFetchData = (apiRoute) => {
+  // This custom hook fetches data from the API based on the apiRoute
+  // and returns the data, loading state, and error state
+  // The data is fetched when the component mounts
+
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
