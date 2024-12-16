@@ -159,7 +159,7 @@ const columns = {
       header: "Área",
     },
     {
-      accessorKey: "población",
+      accessorKey: "poblacion",
       header: "Población",
     },
   ],
