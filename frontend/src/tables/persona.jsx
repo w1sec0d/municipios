@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Table from './table.jsx';
 import data from './data.json';
 
@@ -16,13 +16,24 @@ const columns = [
     header: "Edad",
   },
   {
-    accessorKey: "genero",
-    header: "Genero",
+    accessorKey: "sexo",
+    header: "Sexo",
   },
 ];
 
 
 const PersonaTable = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(import.meta.env.VITE_API_URL + '/persona');
+      const data = await response.json();
+      setData(data);
+    }
+    fetchData();
+  },[]);
+
   return (
     <>
       <Table data={data} columns={columns} />
