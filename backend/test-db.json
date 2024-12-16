@@ -1,0 +1,176 @@
+{
+  "departamento": [
+    {
+      "id": 1,
+      "nombre": "Boyacá",
+      "area": 23130,
+      "poblacion": 1200000
+    },
+    {
+      "id": 2,
+      "nombre": "Nariño",
+      "area": 33390,
+      "poblacion": 1635000
+    },
+    {
+      "id": 3,
+      "nombre": "Tolima",
+      "area": 23540,
+      "poblacion": 1300000
+    }
+  ],
+  "municipio": [
+    {
+      "id": 1,
+      "PERSONA_id": 1,
+      "DEPARTAMENTO_id": 1,
+      "nombre": "Duitama",
+      "area": 100.5,
+      "presupuesto": 50000000
+    },
+    {
+      "id": 2,
+      "PERSONA_id": 2,
+      "DEPARTAMENTO_id": 1,
+      "nombre": "Sogamoso",
+      "area": 150.2,
+      "presupuesto": 80000000
+    },
+    {
+      "id": 3,
+      "PERSONA_id": 3,
+      "DEPARTAMENTO_id": 2,
+      "nombre": "Ipiales",
+      "area": 200.3,
+      "presupuesto": 75000000
+    },
+    {
+      "id": 4,
+      "PERSONA_id": 4,
+      "DEPARTAMENTO_id": 3,
+      "nombre": "Espinal",
+      "area": 130.7,
+      "presupuesto": 62000000
+    }
+  ],
+  "vivienda": [
+    {
+      "id": 1,
+      "MUNICIPIO_id": 1,
+      "direccion": "Calle 10 #5-20",
+      "capacidad": 5,
+      "niveles": 2
+    },
+    {
+      "id": 2,
+      "MUNICIPIO_id": 2,
+      "direccion": "Carrera 12 #4-15",
+      "capacidad": 3,
+      "niveles": 1
+    },
+    {
+      "id": 3,
+      "MUNICIPIO_id": 3,
+      "direccion": "Diagonal 7 #3-18",
+      "capacidad": 4,
+      "niveles": 2
+    },
+    {
+      "id": 4,
+      "MUNICIPIO_id": 4,
+      "direccion": "Transversal 6 #11-22",
+      "capacidad": 6,
+      "niveles": 3
+    }
+  ],
+  "persona": [
+    {
+      "id": 1,
+      "VIVIENDA_id": 1,
+      "PERSONA_id": null,
+      "nombre": "Luis Pérez",
+      "telefono": 3001234567,
+      "edad": 45,
+      "sexo": "Masculino"
+    },
+    {
+      "id": 2,
+      "VIVIENDA_id": 2,
+      "PERSONA_id": null,
+      "nombre": "Ana Martínez",
+      "telefono": 3107654321,
+      "edad": 37,
+      "sexo": "Femenino"
+    },
+    {
+      "id": 3,
+      "VIVIENDA_id": 3,
+      "PERSONA_id": null,
+      "nombre": "Carlos Gómez",
+      "telefono": 3209876543,
+      "edad": 29,
+      "sexo": "Masculino"
+    },
+    {
+      "id": 4,
+      "VIVIENDA_id": 4,
+      "PERSONA_id": null,
+      "nombre": "Laura Sánchez",
+      "telefono": 3152461357,
+      "edad": 32,
+      "sexo": "Femenino"
+    }
+  ],
+  "proyecto": [
+    {
+      "id": 1,
+      "MUNICIPIO_id": 1,
+      "nombre": "Mejoramiento Vial",
+      "presupesto": 10000000,
+      "descripcion": "Reparación de vías urbanas",
+      "fecha_inicio": "2024-05-01",
+      "fecha_fin": "2024-10-01",
+      "estado": "En progreso"
+    },
+    {
+      "id": 2,
+      "MUNICIPIO_id": 3,
+      "nombre": "Parque Lineal",
+      "presupesto": 5000000,
+      "descripcion": "Construcción de espacio verde",
+      "fecha_inicio": "2024-06-15",
+      "fecha_fin": "2024-12-15",
+      "estado": "Planificado"
+    }
+  ],
+  "responsable": [
+    { "PROYECTO_id": 1, "PERSONA_id": 1 },
+    { "PROYECTO_id": 2, "PERSONA_id": 3 }
+  ],
+  "evento": [
+    {
+      "id": 1,
+      "MUNICIPIO_id": 1,
+      "nombre": "Festival de Verano",
+      "presupuesto": 2000000,
+      "descripcion": "Evento cultural anual",
+      "fecha_inicio": "2024-07-15",
+      "fecha_fin": "2024-07-20"
+    },
+    {
+      "id": 2,
+      "MUNICIPIO_id": 4,
+      "nombre": "Feria Agropecuaria",
+      "presupuesto": 3500000,
+      "descripcion": "Feria de productores agrícolas",
+      "fecha_inicio": "2024-08-10",
+      "fecha_fin": "2024-08-12"
+    }
+  ],
+  "persona_has_vivienda": [
+    { "PERSONA_id": 1, "VIVIENDA_id": 1 },
+    { "PERSONA_id": 2, "VIVIENDA_id": 2 },
+    { "PERSONA_id": 3, "VIVIENDA_id": 3 },
+    { "PERSONA_id": 4, "VIVIENDA_id": 4 }
+  ]
+}
