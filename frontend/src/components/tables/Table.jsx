@@ -17,8 +17,14 @@ const Table = ({ apiRoute }) => {
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false);
   const [rowToDelete, setRowToDelete] = useState(null);
 
-  const handleEditUser = (info)=>{console.log(info);}
-  const handleCreateUser = (info)=>{console.log(info);}
+  const handleEditUser = (info)=>{
+    console.log("editing user:");
+    console.log(info.values);
+  }
+  const handleCreateUser = (info)=>{
+    console.log("creating user:");
+    console.log(info.values);
+  }
   const handleDeleteUser = (row)=> {
     console.log("deleting id:");
     console.log(row.original.id);
