@@ -2,7 +2,7 @@ const database = require("../../database.js");
 
 
 // ----------------TRAER TODAS LAS PERSONAS CON ATRIBUTOS----------
-const getPersons = async (req, res) => {
+const getPersona = async (req, res) => {
     database.query('SELECT * FROM PERSONA', (err, rows) => {
         if (err) {
             console.error(err);
@@ -15,19 +15,20 @@ const getPersons = async (req, res) => {
 //-----------------------------------------------------------------
 
 // ---------------- INSERTAR UNA PERSONA -------------------------
-const insertPerson = async (req, res) => {
-    const { id_persona, nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona } = req.body;
+const insertPersona = async (req, res) => {
+    const {nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona } = req.body;
    
-    //Si las llaves foraneas no se envian, se asigna null.
+    //Si las llaves foraneas no se envian, se asigna null al igual que el sexo.
     const viviendaID= VIVIENDA_id_vivienda ? VIVIENDA_id_vivienda : null;
     const personaID= PERSONA_id_persona ? PERSONA_id_persona : null;
+    const sx= sexo ? sexo : null;
     
     //llamado para insertar una persona.
     const query = 
     `INSERT INTO PERSONA 
-    (id_persona,nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona) 
-    VALUES (${id_persona}, '${nombre}', ${telefono}, ${edad}, 
-    '${sexo}', ${viviendaID}, ${personaID})`;
+    (nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona) 
+    VALUES ('${nombre}', '${telefono}', ${edad}, 
+    '${sx}', ${viviendaID}, ${personaID})`;
 
     database.query(query, (err, rows) => {
         if (err) {
@@ -41,7 +42,7 @@ const insertPerson = async (req, res) => {
 //-----------------------------------------------------------------
 
 //------------------------ELIMINAR UNA PERSONA---------------------
-const deletePerson = async (req, res) => {
+const deletePersona = async (req, res) => {
     const { id } = req.params;
     const query = `DELETE FROM PERSONA WHERE id_persona = ${id}`;
     database.query(query, (err, rows) => {
@@ -56,7 +57,7 @@ const deletePerson = async (req, res) => {
 //-----------------------------------------------------------------
 
 // Actualizar una persona.
-const updatePerson = async (req, res) => {
+const updatePersona = async (req, res) => {
     const { id } = req.params;
     const { nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona } = req.body;
 
@@ -89,8 +90,8 @@ const updatePerson = async (req, res) => {
 
 
 module.exports = {
-    getPersons,
-    insertPerson,
-    deletePerson,
-    updatePerson
+    getPersona,
+    insertPersona,
+    deletePersona,
+    updatePersona
 };
