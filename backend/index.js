@@ -5,9 +5,9 @@ const mysql = require("mysql");
 const db = require("./database.js");
 
 
-const departamentosRoutes = require("./src/routes/departamentosRoutes.js");
-const hoRoutes = require("./src/routes/houseRoutes.js");
-const projectRoutes = require("./src/routes/projectRoutes.js");
+const departamentosRoutes = require("./src/routes/departamentoRoutes.js");
+const hoRoutes = require("./src/routes/viviendaRoutes.js");
+const projectRoutes = require("./src/routes/proyectoRoutes.js");
 
 const personaRoutes = require("./src/routes/personaRoutes.js");
 const municipioRoutes = require("./src/routes/municipioRoutes.js");
