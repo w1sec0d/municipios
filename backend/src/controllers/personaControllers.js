@@ -27,7 +27,7 @@ const insertPersona = async (req, res) => {
     const query = 
     `INSERT INTO PERSONA 
     (id_persona,nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona) 
-    VALUES (${id_persona}, '${nombre}', ${telefono}, ${edad}, 
+    VALUES (${id_persona}, '${nombre}', '${telefono}', ${edad}, 
     '${sx}', ${viviendaID}, ${personaID})`;
 
     database.query(query, (err, rows) => {
