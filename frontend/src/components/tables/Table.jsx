@@ -23,7 +23,7 @@ const Table = ({ apiRoute }) => {
 
   const handleEdit = async (info)=>{
     console.log("editing:");
-    console.log({info});
+    console.log(info);
     await updateData(apiRoute, info.values[idName], info.values);
     setReload(!reload);
   }
@@ -37,7 +37,7 @@ const Table = ({ apiRoute }) => {
     console.log("deleting id:");
     console.log(row.original.id_persona);
     setDeleteConfirmModalOpen(false);
-    deleteData(apiRoute, row.original[idName]);
+    await deleteData(apiRoute, row.original[idName]);
     setReload(!reload);
   }
 
@@ -52,11 +52,16 @@ const Table = ({ apiRoute }) => {
     enableColumnOrdering: true, 
     enableEditing: true,
     createDisplayMode: 'modal',
-    onCreatingRowSave: handleCreate,
-    onEditingRowSave: handleEdit,
-    getRowId: (row) => row[idName],
-    renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => {
-      return (
+    onCreatingRowSave: async (info) => {
+      await handleCreate(info);
+      table.setCreatingRow(false); 
+    },
+    onEditingRowSave: async (info) => {
+      await handleEdit(info);
+      table.setEditingRow(null); 
+    },
+    getRowId: (row) => row.id,
+    renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
         <DialogTitle variant="h3">Crear nuevo</DialogTitle>
         <DialogContent
@@ -67,7 +72,8 @@ const Table = ({ apiRoute }) => {
         <DialogActions>
           <MRT_EditActionButtons variant="text" table={table} row={row} />
         </DialogActions>
-      </>)},
+      </>
+    ),
     renderRowActions: ({ row, table }) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
         <Tooltip title="Edit">
@@ -145,7 +151,7 @@ const Table = ({ apiRoute }) => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <label className="text-zinc-100">Lista de {apiRoute}s</label>
+      <label className="text-zinc-100">Lista de {apiRoute}</label>
       <MaterialReactTable table={table}/>
       <ConfirmDialog isOpen={deleteConfirmModalOpen} setIsOpen={setDeleteConfirmModalOpen} onConfirm={()=>handleDelete(rowToDelete)}/>
     </div>
