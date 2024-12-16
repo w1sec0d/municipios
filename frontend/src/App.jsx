@@ -7,14 +7,13 @@ import {
 } from "react-router-dom";
 import Table from './tables/Table.jsx';
 
-
 //Funcion para probar la conexion con el backend
 
 const App = () => {
   return (
     <>
-      <Header />
       <Router>
+        <Header/>
         <Routes>
           <Route path="/" element={<h1>HOLA</h1>} />
           <Route 

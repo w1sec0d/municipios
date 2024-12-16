@@ -19,6 +19,22 @@ const Table = ({ apiRoute }) => {
     createDisplayMode: 'modal',
     onCreatingRowSave: handleCreateUser,
     onEditingRowSave: handleEditUser,
+    //Table header props
+    muiTableHeadCellProps: {
+      sx: {
+        backgroundColor: '#1F2B7F',
+        color: 'white',
+      },
+    },
+    //Table body props
+    muiTableBodyRowProps: ({ row }) => ({
+      sx: {
+        backgroundColor: row.id % 2 === 0 ? '#87E6FF' : 'white',
+        '&:hover': {
+          backgroundColor: '#f3fab4',
+        },
+      }
+    }),
   })
 
   if (loading) {
