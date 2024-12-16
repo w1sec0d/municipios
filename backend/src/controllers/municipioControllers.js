@@ -63,7 +63,9 @@ const updateMunicipio = async (req, res) => {
     if (nombre) fieldsToUpdate.push(`nombre = '${nombre}'`);
     if (area) fieldsToUpdate.push(`area = ${area}`);
     if (presupuesto) fieldsToUpdate.push(`presupuesto = ${presupuesto}`);
-    if (PERSONA_id_persona) fieldsToUpdate.push(`PERSONA_id_persona = ${PERSONA_id_persona}`);
+    if (PERSONA_id_persona !== undefined){
+        fieldsToUpdate.push(`PERSONA_id_persona = ${PERSONA_id_persona === null ? 'NULL' : PERSONA_id_persona}`);
+    }
     if (DEPARTAMENTO_id_departamento) fieldsToUpdate.push(`DEPARTAMENTO_id_departamento = ${DEPARTAMENTO_id_departamento}`);
 
     const query = `UPDATE MUNICIPIO SET ${fieldsToUpdate.join(', ')} WHERE id_municipio = ${id}`;
