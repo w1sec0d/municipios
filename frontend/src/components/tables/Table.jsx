@@ -37,7 +37,7 @@ const Table = ({ apiRoute }) => {
     console.log("deleting id:");
     console.log(row.original.id_persona);
     setDeleteConfirmModalOpen(false);
-    deleteData(apiRoute, row.original[idName]);
+    await deleteData(apiRoute, row.original[idName]);
     setReload(!reload);
   }
 
@@ -52,8 +52,14 @@ const Table = ({ apiRoute }) => {
     enableColumnOrdering: true, 
     enableEditing: true,
     createDisplayMode: 'modal',
-    onCreatingRowSave: handleCreate,
-    onEditingRowSave: handleEdit,
+    onCreatingRowSave: async (info) => {
+      await handleCreate(info);
+      table.setCreatingRow(false); 
+    },
+    onEditingRowSave: async (info) => {
+      await handleEdit(info);
+      table.setEditingRow(null); 
+    },
     getRowId: (row) => row.id,
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
@@ -145,7 +151,7 @@ const Table = ({ apiRoute }) => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <label className="text-zinc-100">Lista de {apiRoute}s</label>
+      <label className="text-zinc-100">Lista de {apiRoute}</label>
       <MaterialReactTable table={table}/>
       <ConfirmDialog isOpen={deleteConfirmModalOpen} setIsOpen={setDeleteConfirmModalOpen} onConfirm={()=>handleDelete(rowToDelete)}/>
     </div>
