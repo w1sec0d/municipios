@@ -18,12 +18,12 @@ const Table = ({ apiRoute }) => {
   const [rowToDelete, setRowToDelete] = useState(null);
 
   const handleEdit = (info)=>{
-    console.log("editing user:");
+    console.log("editing:");
     console.log(info.values);
     updateData(apiRoute, info.values.id, info.values);
   }
   const handleCreate = (info)=>{
-    console.log("creating user:");
+    console.log("creating:");
     console.log(info.values);
     createData(apiRoute, info.values);
   }

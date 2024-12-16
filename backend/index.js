@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const mysql = require("mysql");
 const db = require("./database.js");
+const morgan = require("morgan"); // Importar morgan
 
 const departamentosRoutes = require("./src/routes/departamentoRoutes.js");
 const homeRoutes = require("./src/routes/viviendaRoutes.js");
@@ -19,6 +20,10 @@ const port = 3001;
 
 app.use(bodyParser.json());
 app.use(cors());
+
+// Middleware para registrar el cuerpo de la solicitud
+morgan.token("requestBody", (request) => JSON.stringify(request.body));
+app.use(morgan(" :method :url :response-time :requestBody"));
 
 app.use("/", departamentosRoutes);
 app.use("/", homeRoutes);
