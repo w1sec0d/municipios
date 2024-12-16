@@ -9,6 +9,7 @@ import useFetchData from "../../hooks/useFetchData";
 import ConfirmDialog from "../ConfirmDialog";
 import { useState } from "react";
 import {createData, updateData, deleteData } from "../../services/apiService";
+import { Label } from "@mui/icons-material";
 
 
 const Table = ({ apiRoute }) => {
@@ -101,10 +102,46 @@ const Table = ({ apiRoute }) => {
       showAlertBanner: error,
       // showProgressBars: isFetchingUsers,
     },
+    muiTopToolbarProps: {
+      sx: {
+        backgroundColor: '#27272a',
+        color: 'white',
+      }
+    },
+    muiBottomToolbarProps: {
+      sx: {
+        backgroundColor: '#27272a',
+        color: 'white',
+      }
+    },
+    //Table header props
+    muiTableHeadCellProps: {
+      sx: {
+        backgroundColor: '#27272a',
+        color: '#4FDBFF',
+        fontFamily: 'Raleway',
+      },
+    },
+
+    muiTableBodyCellProps: {
+      sx: {
+        color: 'white',
+      },
+    },
+    //Table body props
+    muiTableBodyRowProps: ({ row }) => ({
+      sx: {
+        backgroundColor: row.id % 2 === 0 ? '#3f3f46' : '#27272a',
+        '&:hover': {
+          backgroundColor: '#52525b',
+        },
+      }
+    }),
   })
 
   return (
     <div style={{ padding: "20px" }}>
+      <label className="text-zinc-100">Lista de {apiRoute}s</label>
       <MaterialReactTable table={table}/>
       <ConfirmDialog isOpen={deleteConfirmModalOpen} setIsOpen={setDeleteConfirmModalOpen} onConfirm={()=>handleDelete(rowToDelete)}/>
     </div>
