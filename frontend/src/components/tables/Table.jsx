@@ -17,10 +17,13 @@ const Table = ({ apiRoute }) => {
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false);
   const [rowToDelete, setRowToDelete] = useState(null);
 
+  // Id name of the table "id_persona", "id_vivienda" etc
+  const idName = "id_"+ apiRoute.slice(0, -1);
+
   const handleEdit = (info)=>{
     console.log("editing:");
-    console.log(info.values);
-    updateData(apiRoute, info.values.id_persona, info.values);
+    console.log(info);
+    updateData(apiRoute, info.values[idName], info.values);
   }
   const handleCreate = (info)=>{
     console.log("creating:");
@@ -31,7 +34,7 @@ const Table = ({ apiRoute }) => {
     console.log("deleting id:");
     console.log(row.original.id_persona);
     setDeleteConfirmModalOpen(false);
-    deleteData(apiRoute, row.original.id_persona);
+    deleteData(apiRoute, row.original[idName]);
   }
 
 
