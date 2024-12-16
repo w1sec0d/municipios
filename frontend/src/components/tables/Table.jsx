@@ -11,33 +11,35 @@ import { useState } from "react";
 import {createData, updateData, deleteData } from "../../services/apiService";
 import { Label } from "@mui/icons-material";
 
-
 const Table = ({ apiRoute }) => {
   // Fetches data from api based on apiRoute
-  const { data, loading, error } = useFetchData(apiRoute);
+  const [reload, setReload] = useState(false);
+  const { data, loading, error } = useFetchData(apiRoute, reload);
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false);
   const [rowToDelete, setRowToDelete] = useState(null);
 
   // Id name of the table "id_persona", "id_vivienda" etc
   const idName = "id_"+ apiRoute.slice(0, -1);
 
-  const handleEdit = (info)=>{
+  const handleEdit = async (info)=>{
     console.log("editing:");
     console.log(info);
-    updateData(apiRoute, info.values[idName], info.values);
+    await updateData(apiRoute, info.values[idName], info.values);
+    setReload(!reload);
   }
-  const handleCreate = (info)=>{
+  const handleCreate = async (info)=>{
     console.log("creating:");
     console.log(info.values);
-    createData(apiRoute, info.values);
+    await createData(apiRoute, info.values);
+    setReload(!reload);
   }
-  const handleDelete = (row)=> {
+  const handleDelete = async (row)=> {
     console.log("deleting id:");
     console.log(row.original.id_persona);
     setDeleteConfirmModalOpen(false);
     deleteData(apiRoute, row.original[idName]);
+    setReload(!reload);
   }
-
 
   const openDeleteConfirmModal = (row) => {
     setRowToDelete(row);
@@ -102,6 +104,8 @@ const Table = ({ apiRoute }) => {
       showAlertBanner: error,
       // showProgressBars: isFetchingUsers,
     },
+
+    //Table aspect props
     muiTopToolbarProps: {
       sx: {
         backgroundColor: '#27272a',

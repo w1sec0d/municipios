@@ -1,5 +1,5 @@
-import Header from './header.jsx';
-import Home from './home.jsx';
+import Header from './components/header.jsx';
+import Home from './components/home.jsx';
 
 import {
   BrowserRouter as Router,
