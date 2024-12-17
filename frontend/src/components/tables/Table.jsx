@@ -7,6 +7,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EventIcon from '@mui/icons-material/Event';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
+import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
+import HomeIcon from '@mui/icons-material/Home';
 
 //Component imports
 import tableColumns from "./columns";
@@ -63,8 +65,8 @@ const Table = ({ apiRoute }) => {
     setDeleteConfirmModalOpen(true);
   }
 
-  const openViewModal = (row, view) => {
-    setView(`${apiRoute}/${view}`); 
+  const openViewModal = (row, viewName) => {
+    setView(`${apiRoute}/${viewName}`); 
     setApiId(row.original[idName]);
     setViewModalOpen(true);
   }
@@ -119,6 +121,13 @@ const Table = ({ apiRoute }) => {
         {apiRoute == 'departamentos' ? <ExtraButton title="Municipalities" Icon={LocationCityIcon} api='municipios' row={row} func={openViewModal}/>
                                   : null}
 
+        {/**/}
+        {apiRoute == 'personas' ? 
+        <>
+        <ExtraButton title="Dependants" Icon={FamilyRestroomIcon} api='dependientes' row={row} func={openViewModal}/>
+        <ExtraButton title="properties" Icon={HomeIcon} api='propiedades' row={row} func={openViewModal}/>
+        </>
+                                  :null}
         
       </Box>
     ),

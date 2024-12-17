@@ -198,6 +198,38 @@ const columns = {
       accessorKey: "presupuesto",
       header: "Presupuesto",
     },
+  ],
+  "personas/dependientes": [
+    {
+      accessorKey: "nombre",
+      header: "Nombre",
+    },
+    {
+      accessorKey: "telefono",
+      header: "Telefono",
+    },
+    {
+      accessorKey: "edad",
+      header: "Edad",
+    },
+    {
+      accessorKey: "sexo",
+      header: "Genero",
+    },
+  ],
+  "personas/propiedades": [
+    {
+      accessorKey: "direccion",
+      header: "direccion",
+    },
+    {
+      accessorKey: "capacidad",
+      header: "Capacidad",
+    },
+    {
+      accessorKey: "niveles",
+      header: "Niveles",
+    },
   ]
 };
 

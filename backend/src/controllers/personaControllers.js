@@ -87,11 +87,41 @@ const updatePersona = async (req, res) => {
         res.send('Person updated successfully.');
     });
 }
+//-----------------------------------------------------------------
+
+//VER PERSONAS QUE DEPENDEN DE LA PERSONA
+
+const getDependientes = async (req, res) => {
+    const { id } = req.params;
+    database.query('SELECT * FROM vistaPersonaCabezaFamilia WHERE id_cabeza_familia = ?', [id], (err, rows) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while processing your request.');
+            return;
+        }
+        res.send(rows);
+    });
+}
+
+const getPropiedades = async (req, res) => {
+    const { id } = req.params;
+    
+    database.query('SELECT * FROM vistaPropiedad WHERE id_persona = ?', [id], (err, rows) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while processing your request.');
+            return;
+        }
+        res.send(rows);
+    });
+}
 
 
 module.exports = {
     getPersona,
     insertPersona,
     deletePersona,
-    updatePersona
+    updatePersona,
+    getDependientes,
+    getPropiedades
 };
