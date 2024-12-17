@@ -1,15 +1,45 @@
 import PropTypes from "prop-types";
-import { MaterialReactTable, MRT_EditActionButtons, useMaterialReactTable } from "material-react-table";
-import { Box, Button, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip } from "@mui/material";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {
+  MaterialReactTable,
+  MRT_EditActionButtons,
+  useMaterialReactTable,
+} from "material-react-table";
+import {
+  Box,
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import tableColumns from "./columns";
 import useFetchData from "../../hooks/useFetchData";
 import ConfirmDialog from "../ConfirmDialog";
 import { useState } from "react";
-import {createData, updateData, deleteData } from "../../services/apiService";
+
+import { createData, updateData, deleteData } from "../../services/apiService";
+import validationSchemas from "../../services/validations";
+import Swal from "sweetalert2";
+import showValidationErrors from "../../services/showValidationResult";
 import { useNotification } from "../NotificationContext";
+
+const transformEmptyStringsToNull = (obj) => {
+  const transformedObj = {};
+  for (const key in obj) {
+    if (obj[key] === "") {
+      transformedObj[key] = null;
+    } else {
+      transformedObj[key] = obj[key];
+    }
+  }
+  return transformedObj;
+};
+
+
 
 const Table = ({ apiRoute }) => {
   const showNotification = useNotification();
@@ -21,42 +51,64 @@ const Table = ({ apiRoute }) => {
   const [rowToDelete, setRowToDelete] = useState(null);
 
   // Id name of the table "id_persona", "id_vivienda" etc
-  const idName = "id_"+ apiRoute.slice(0, -1);
 
-  const handleEdit = async (info)=>{
+  const idName = "id_" + apiRoute.slice(0, -1);
+
+  const handleEdit = async (info) => {
     console.log("editing:");
     console.log(info);
-    await updateData(apiRoute, info.values[idName], info.values);
-    setReload(!reload);
-    showNotification("success", "Editado exitosamente");
-  }
-  const handleCreate = async (info)=>{
+
+    const transformedValues = transformEmptyStringsToNull(info.values);
+
+    try {
+      await validationSchemas[apiRoute].validate(transformedValues, {
+        abortEarly: false,
+      });
+      updateData(apiRoute, transformedValues[idName], transformedValues);
+      setReload(!reload);
+      showNotification("success", "Editado exitosamente");
+    } catch (validationErrors) {
+      console.error("Validation errors:", validationErrors.inner);
+      showValidationErrors(validationErrors, "Error al actualizar persona");
+    }
+  };
+  const handleCreate = async (info) => {
     console.log("creating:");
     console.log(info.values);
-    await createData(apiRoute, info.values);
-    setReload(!reload);
-    showNotification("success", "Creado exitosamente");
-  }
-  const handleDelete = async (row)=> {
+    const transformedValues = transformEmptyStringsToNull(info.values);
+
+    try {
+      await validationSchemas[apiRoute].validate(transformedValues, {
+        abortEarly: false,
+      });
+      createData(apiRoute, transformedValues);
+      setReload(!reload);
+      showNotification("success", "Creado exitosamente");
+    } catch (validationErrors) {
+      console.error("Validation errors:", validationErrors.inner);
+      showValidationErrors(validationErrors, "Error al crear persona");
+    }
+  };
+
+  const handleDelete = (row) => {
     console.log("deleting id:");
     console.log(row.original.id_persona);
     setDeleteConfirmModalOpen(false);
-    await deleteData(apiRoute, row.original[idName]);
+    deleteData(apiRoute, row.original[idName]);
     setReload(!reload);
     showNotification("success", "Eliminado exitosamente");
-  }
+  };
 
   const openDeleteConfirmModal = (row) => {
     setRowToDelete(row);
     setDeleteConfirmModalOpen(true);
-  }
+  };
 
   const table = useMaterialReactTable({
     data: data,
     columns: tableColumns[apiRoute],
-    enableColumnOrdering: true, 
+    enableColumnOrdering: true,
     enableEditing: true,
-    
     createDisplayMode: 'modal',
     onCreatingRowSave: async (info) => {
       await handleCreate(info);
@@ -71,7 +123,7 @@ const Table = ({ apiRoute }) => {
       <>
         <DialogTitle variant="h3">Crear nuevo</DialogTitle>
         <DialogContent
-          sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+          sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
         >
           {internalEditComponents} {/* or render custom edit components here */}
         </DialogContent>
@@ -81,7 +133,7 @@ const Table = ({ apiRoute }) => {
       </>
     ),
     renderRowActions: ({ row, table }) => (
-      <Box sx={{ display: 'flex', gap: '1rem' }}>
+      <Box sx={{ display: "flex", gap: "1rem" }}>
         <Tooltip title="Edit">
           <IconButton onClick={() => table.setEditingRow(row)}>
             <EditIcon className="text-white"/>
@@ -116,7 +168,6 @@ const Table = ({ apiRoute }) => {
       showAlertBanner: error,
       // showProgressBars: isFetchingUsers,
     },
-
     //Table aspect props
     muiTopToolbarProps: {
       sx: {

@@ -66,9 +66,15 @@ const updatePersona = async (req, res) => {
     if (nombre) fieldsToUpdate.push(`nombre = '${nombre}'`);
     if (telefono) fieldsToUpdate.push(`telefono = '${telefono}'`);
     if (edad) fieldsToUpdate.push(`edad = ${edad}`);
-    if (sexo) fieldsToUpdate.push(`sexo = '${sexo}'`);
-    if (VIVIENDA_id_vivienda) fieldsToUpdate.push(`VIVIENDA_id_vivienda = ${VIVIENDA_id_vivienda}`);
-    if (PERSONA_id_persona) fieldsToUpdate.push(`PERSONA_id_persona = ${PERSONA_id_persona}`);
+    if (sexo !== undefined) {
+        fieldsToUpdate.push(`sexo = ${sexo === null ? 'NULL' : `'${sexo}'`}`);
+    }
+    if (VIVIENDA_id_vivienda !== undefined) {
+        fieldsToUpdate.push(`VIVIENDA_id_vivienda = ${VIVIENDA_id_vivienda === null ? 'NULL' : VIVIENDA_id_vivienda}`);
+      }
+    if (PERSONA_id_persona !== undefined) {
+        fieldsToUpdate.push(`PERSONA_id_persona = ${PERSONA_id_persona === null ? 'NULL' : PERSONA_id_persona}`);
+      }
 
     if (fieldsToUpdate.length === 0) {
         res.status(400).send('No fields to update.');
