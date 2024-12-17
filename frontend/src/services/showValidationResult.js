@@ -10,7 +10,10 @@ const showValidationErrors = (validationErrors, text = "Error al actualizar los 
       .join(""),
     customClass: {
       popup: "custom-swal-popup",
+      confirmButton: "custom-swal-button",
     },
+    background: "#202020",
+    color: "#ffffff",
   });
 };
 

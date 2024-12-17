@@ -5,3 +5,11 @@
 .swal2-container {
   z-index: 99999;
 }
+.custom-swal-popup {
+  border: 2px solid #ff0000 !important;
+}
+
+.custom-swal-button {
+  background-color: #c33333 !important; 
+  color: #ffffff !important; 
+}
