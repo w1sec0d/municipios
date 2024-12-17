@@ -50,6 +50,15 @@ const validationRules = {
         estado: yup.string().required('El estado es obligatorio')
     }),
 
+    //VALIDACIONES EVENTOS
+    eventos: yup.object().shape({
+        MUNICIPIO_id_municipio: yup.number().required('La ID municipio es obligatoria').positive('La ID municipio debe ser positiva').integer('La ID municipio debe ser un número entero'),
+        nombre: yup.string().required('El nombre es obligatorio'),
+        presupuesto: yup.number().required('El presupuesto es obligatorio').positive('El presupuesto debe ser positivo'),
+        descripcion: yup.string().required('La descripción es obligatoria').max(255, 'La descripción no puede exceder los 255 caracteres'),
+        fecha_inicio: yup.date().required('La fecha de inicio es obligatoria'),
+        fecha_fin: yup.date().required('La fecha de fin es obligatoria'),
+    }), 
 };
 
 
