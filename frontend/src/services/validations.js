@@ -38,6 +38,7 @@ const validationRules = {
         area: yup.number().required('El area es obligatoria').positive('El area debe ser positiva'),
         poblacion: yup.number().required('La población es obligatoria').positive('La población debe ser positiva').integer('La población debe ser un número entero')
     }),
+
 };
 
 

@@ -61,10 +61,6 @@ const columns = {
       header: "ID", // Displayed in the table header
     },
     {
-      accessorKey: "MUNICIPIO_id_municipio",
-      header: "Municipio",
-    },
-    {
       accessorKey: "nombre",
       header: "Nombre",
     },
