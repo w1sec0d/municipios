@@ -143,6 +143,48 @@ const columns = {
       header: "Población",
     },
   ],
+  responsables: [
+    {
+      accessorKey: "PERSONA_id_persona",
+      header: "ID Persona",
+    },
+    {
+      accessorKey: "PROYECTO_id_proyecto",
+      header: "ID Proyecto",
+    },
+  ],
+  propiedades: [
+    {
+      accessorKey: "VIVIENDA_id_vivienda",
+      header: "ID Vivienda",
+    },
+    {
+      accessorKey: "PERSONA_id_persona",
+      header: "ID Persona",
+    },
+  ],
+  "municipios/eventos": [
+      {
+        accessorKey: "nombre",
+        header: "Nombre",
+      },
+      {
+        accessorKey: "presupuesto",
+        header: "Presupuesto",
+      },
+      {
+        accessorKey: "descripcion",
+        header: "Descripción",
+      },
+      {
+        accessorKey: "fecha_inicio",
+        header: "Fecha de Inicio",
+      },
+      {
+        accessorKey: "fecha_fin",
+        header: "Fecha de Fin",
+      },
+  ]
 };
 
 export default columns;

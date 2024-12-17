@@ -5,6 +5,7 @@ const {
   insertMunicipio,
   deleteMunicipio,
   updateMunicipio,
+  getEventosMunicipio
 } = require("../controllers/municipioControllers.js");
 
 //rutas para la tabla municipio.
@@ -17,5 +18,7 @@ router.post("/municipios", insertMunicipio);
 router.delete("/municipios/:id", deleteMunicipio);
 //Actualizar un municipio
 router.put("/municipios/:id", updateMunicipio);
+//Ver los eventos de un municipio
+router.get("/municipios/eventos/:id", getEventosMunicipio);
 
 module.exports = router;

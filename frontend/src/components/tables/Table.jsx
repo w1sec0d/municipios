@@ -3,21 +3,26 @@ import { MaterialReactTable, MRT_EditActionButtons, useMaterialReactTable } from
 import { Box, Button, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import HouseIcon from '@mui/icons-material/House';
+import EventIcon from '@mui/icons-material/Event';
 
 import tableColumns from "./columns";
 import useFetchData from "../../hooks/useFetchData";
 import ConfirmDialog from "../ConfirmDialog";
+import ViewDialog from "../ViewDialog";
 import { useState } from "react";
-import {createData, updateData, deleteData } from "../../services/apiService";
-import { Label } from "@mui/icons-material";
+import {createData, updateData, deleteData, getData } from "../../services/apiService";
+
 
 const Table = ({ apiRoute }) => {
   // Fetches data from api based on apiRoute
   const [reload, setReload] = useState(false);
   const { data, loading, error } = useFetchData(apiRoute, reload);
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false);
+  const [ViewModalOpen, setViewModalOpen] = useState(false);
   const [rowToDelete, setRowToDelete] = useState(null);
-
+  const [view, setView] = useState(null);
+  const [apiId, setApiId] = useState(null);
   // Id name of the table "id_persona", "id_vivienda" etc
   const idName = "id_"+ apiRoute.slice(0, -1);
 
@@ -45,6 +50,14 @@ const Table = ({ apiRoute }) => {
     setRowToDelete(row);
     setDeleteConfirmModalOpen(true);
   }
+
+  const openViewModal = (row) => {
+    setView(`${apiRoute}/eventos`); 
+    setApiId(row.original[idName]);
+    setViewModalOpen(true);
+  }
+
+  
 
   const table = useMaterialReactTable({
     data: data,
@@ -86,6 +99,14 @@ const Table = ({ apiRoute }) => {
             <DeleteIcon />
           </IconButton>
         </Tooltip>
+        {apiRoute == 'municipios' ? <Tooltip title="Event">
+                                    <IconButton onClick={() => openViewModal(row)}>
+                                      <EventIcon />
+                                    </IconButton>
+                                  </Tooltip> 
+                                  : null}
+
+        
       </Box>
     ),
     renderTopToolbarCustomActions: ({ table }) => (
@@ -154,6 +175,7 @@ const Table = ({ apiRoute }) => {
       <label className="text-zinc-100">Lista de {apiRoute}</label>
       <MaterialReactTable table={table}/>
       <ConfirmDialog isOpen={deleteConfirmModalOpen} setIsOpen={setDeleteConfirmModalOpen} onConfirm={()=>handleDelete(rowToDelete)}/>
+      <ViewDialog isOpen={ViewModalOpen} setIsOpen={setViewModalOpen} onConfirm={()=>handleDelete(rowToDelete)} apiRoute={view} id={apiId}/>
     </div>
   );
 };
