@@ -39,6 +39,17 @@ const validationRules = {
         poblacion: yup.number().required('La población es obligatoria').positive('La población debe ser positiva').integer('La población debe ser un número entero')
     }),
 
+    //VALIDACIONES PROYECTOS
+    proyectos: yup.object().shape({
+        MUNICIPIO_id_municipio: yup.number().required('La ID municipio es obligatoria').positive('La ID municipio debe ser positiva').integer('La ID municipio debe ser un número entero'),
+        nombre: yup.string().required('El nombre es obligatorio'),
+        presupuesto: yup.number().required('El presupuesto es obligatorio').positive('El presupuesto debe ser positivo'),
+        descripcion: yup.string().max(255, 'La descripción no puede exceder los 255 caracteres'),
+        fecha_inicio: yup.date().required('La fecha de inicio es obligatoria'),
+        fecha_fin: yup.date().required('La fecha de fin es obligatoria'),
+        estado: yup.string().required('El estado es obligatorio')
+    }),
+
 };
 
 

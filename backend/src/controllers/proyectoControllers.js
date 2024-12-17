@@ -1,5 +1,14 @@
 const database = require("../../database.js");
 
+// Función para formatear las fechas al formato YYYY-MM-DD
+const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
 const registerProject = async(req, res) => {
 
     const {MUNICIPIO_id_municipio, nombre, presupuesto, descripcion, fecha_inicio, fecha_fin, estado} = req.body;
@@ -31,7 +40,13 @@ const viewProject = async(req, res) => {
                 console.error(err);
                 res.status(500).send('An error occurred while processing your request.');
             }else{
-                res.send(result);
+      // Transformar las fechas al formato YYYY-MM-DD
+            const formattedResult = result.map((project) => ({
+                ...project,
+                fecha_inicio: formatDate(project.fecha_inicio),
+                fecha_fin: formatDate(project.fecha_fin),
+            }));
+            res.send(formattedResult);
             }
         });
 
