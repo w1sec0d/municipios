@@ -51,6 +51,7 @@ const Table = ({ apiRoute }) => {
     columns: tableColumns[apiRoute],
     enableColumnOrdering: true, 
     enableEditing: true,
+    
     createDisplayMode: 'modal',
     onCreatingRowSave: async (info) => {
       await handleCreate(info);
@@ -78,7 +79,7 @@ const Table = ({ apiRoute }) => {
       <Box sx={{ display: 'flex', gap: '1rem' }}>
         <Tooltip title="Edit">
           <IconButton onClick={() => table.setEditingRow(row)}>
-            <EditIcon />
+            <EditIcon className="text-white"/>
           </IconButton>
         </Tooltip>
         <Tooltip title="Delete">
@@ -124,12 +125,25 @@ const Table = ({ apiRoute }) => {
         color: 'white',
       }
     },
+    muiTableProps: {
+      sx: {
+        border: '1px solid rgba(81, 81, 81, .5)',
+        caption: {
+          captionSide: 'top',
+        },
+      },
+    },
     //Table header props
     muiTableHeadCellProps: {
       sx: {
         backgroundColor: '#27272a',
         color: '#4FDBFF',
         fontFamily: 'Raleway',
+      },
+    },
+    muiTableToolbarButtonProps: {
+      sx: {
+        color: 'white', // Cambiar el color de los iconos de la barra de herramientas
       },
     },
 

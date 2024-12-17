@@ -8,12 +8,18 @@ import {
 } from "react-router-dom";
 import Table from './components/tables/table.jsx'; // Generado con Copilot
 import ConfirmDialog from './components/ConfirmDialog.jsx';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 
-//Funcion para probar la conexion con el backend
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 const App = () => {
   return (
-    <>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline/>
       <ConfirmDialog />
       <Router>
         <Header/>
@@ -39,7 +45,7 @@ const App = () => {
             element={<Table apiRoute="proyectos" />} />
         </Routes>
       </Router>
-    </>
+    </ThemeProvider>
   )
 }
 
