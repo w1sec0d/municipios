@@ -64,12 +64,16 @@ const Table = ({ apiRoute }) => {
       await validationSchemas[apiRoute].validate(transformedValues, {
         abortEarly: false,
       });
-      updateData(apiRoute, transformedValues[idName], transformedValues);
-      setReload(!reload);
-      showNotification("success", "Editado exitosamente");
+      const res = await updateData(apiRoute, transformedValues[idName], transformedValues);
+      // Only if the update was successful
+      if(res.status === 200){
+        setReload(!reload);
+        showNotification("success", "Editado exitosamente");
+      }
     } catch (validationErrors) {
       console.error("Validation errors:", validationErrors.inner);
-      showValidationErrors(validationErrors, "Error al actualizar persona");
+      showValidationErrors(validationErrors, "Error al actualizar ");
+      showNotification("error", "Error al actualizar");
     }
   };
   const handleCreate = async (info) => {
@@ -81,22 +85,28 @@ const Table = ({ apiRoute }) => {
       await validationSchemas[apiRoute].validate(transformedValues, {
         abortEarly: false,
       });
-      createData(apiRoute, transformedValues);
-      setReload(!reload);
-      showNotification("success", "Creado exitosamente");
+      const res = await createData(apiRoute, transformedValues);
+
+      if(res.status === 200){
+        setReload(!reload);
+        showNotification("success", "Creado exitosamente");
+      }
     } catch (validationErrors) {
       console.error("Validation errors:", validationErrors.inner);
-      showValidationErrors(validationErrors, "Error al crear persona");
+      showValidationErrors(validationErrors, "Error al crear");
+      showNotification("error", "Error al crear");
     }
   };
 
-  const handleDelete = (row) => {
+  const handleDelete = async(row) => {
     console.log("deleting id:");
     console.log(row.original.id_persona);
     setDeleteConfirmModalOpen(false);
-    deleteData(apiRoute, row.original[idName]);
-    setReload(!reload);
-    showNotification("success", "Eliminado exitosamente");
+    const res = await deleteData(apiRoute, row.original[idName]);
+    if(res.status === 200){
+      setReload(!reload);
+      showNotification("success", "Eliminado exitosamente");
+    }
   };
 
   const openDeleteConfirmModal = (row) => {
