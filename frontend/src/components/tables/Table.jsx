@@ -9,9 +9,11 @@ import useFetchData from "../../hooks/useFetchData";
 import ConfirmDialog from "../ConfirmDialog";
 import { useState } from "react";
 import {createData, updateData, deleteData } from "../../services/apiService";
-import { Label } from "@mui/icons-material";
+import { useNotification } from "../NotificationContext";
 
 const Table = ({ apiRoute }) => {
+  const showNotification = useNotification();
+
   // Fetches data from api based on apiRoute
   const [reload, setReload] = useState(false);
   const { data, loading, error } = useFetchData(apiRoute, reload);
@@ -26,12 +28,14 @@ const Table = ({ apiRoute }) => {
     console.log(info);
     await updateData(apiRoute, info.values[idName], info.values);
     setReload(!reload);
+    showNotification("success", "Editado exitosamente");
   }
   const handleCreate = async (info)=>{
     console.log("creating:");
     console.log(info.values);
     await createData(apiRoute, info.values);
     setReload(!reload);
+    showNotification("success", "Creado exitosamente");
   }
   const handleDelete = async (row)=> {
     console.log("deleting id:");
@@ -39,6 +43,7 @@ const Table = ({ apiRoute }) => {
     setDeleteConfirmModalOpen(false);
     await deleteData(apiRoute, row.original[idName]);
     setReload(!reload);
+    showNotification("success", "Eliminado exitosamente");
   }
 
   const openDeleteConfirmModal = (row) => {
