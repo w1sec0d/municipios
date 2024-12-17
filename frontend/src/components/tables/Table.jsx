@@ -1,19 +1,31 @@
 import PropTypes from "prop-types";
 import { MaterialReactTable, MRT_EditActionButtons, useMaterialReactTable } from "material-react-table";
 import { Box, Button, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip } from "@mui/material";
+
+//Icon imports
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import HouseIcon from '@mui/icons-material/House';
 import EventIcon from '@mui/icons-material/Event';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
 
+//Component imports
 import tableColumns from "./columns";
 import useFetchData from "../../hooks/useFetchData";
 import ConfirmDialog from "../ConfirmDialog";
 import ViewDialog from "../ViewDialog";
+
 import { useState } from "react";
-import {createData, updateData, deleteData, getData } from "../../services/apiService";
+import {createData, updateData, deleteData } from "../../services/apiService";
 
-
+const ExtraButton = ({title, Icon, api, row, func}) => {
+  return (
+    <Tooltip title={title}>
+      <IconButton onClick={() => func(row, api)}>
+        <Icon />
+      </IconButton>
+    </Tooltip>
+  );
+}
 const Table = ({ apiRoute }) => {
   // Fetches data from api based on apiRoute
   const [reload, setReload] = useState(false);
@@ -51,8 +63,8 @@ const Table = ({ apiRoute }) => {
     setDeleteConfirmModalOpen(true);
   }
 
-  const openViewModal = (row) => {
-    setView(`${apiRoute}/eventos`); 
+  const openViewModal = (row, view) => {
+    setView(`${apiRoute}/${view}`); 
     setApiId(row.original[idName]);
     setViewModalOpen(true);
   }
@@ -99,11 +111,12 @@ const Table = ({ apiRoute }) => {
             <DeleteIcon />
           </IconButton>
         </Tooltip>
-        {apiRoute == 'municipios' ? <Tooltip title="Event">
-                                    <IconButton onClick={() => openViewModal(row)}>
-                                      <EventIcon />
-                                    </IconButton>
-                                  </Tooltip> 
+        {/* Event button for municipalities*/}
+        {apiRoute == 'municipios' ? <ExtraButton title="Events" Icon={EventIcon} api='eventos' row={row} func={openViewModal}/>
+                                  : null}
+
+        {/* municipalities button for departments*/}
+        {apiRoute == 'departamentos' ? <ExtraButton title="Municipalities" Icon={LocationCityIcon} api='municipios' row={row} func={openViewModal}/>
                                   : null}
 
         

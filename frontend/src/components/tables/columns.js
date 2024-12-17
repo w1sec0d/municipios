@@ -184,6 +184,20 @@ const columns = {
         accessorKey: "fecha_fin",
         header: "Fecha de Fin",
       },
+  ],
+  "departamentos/municipios": [
+    {
+      accessorKey: "nombre",
+      header: "Nombre",
+    },
+    {
+      accessorKey: "ara",
+      header: "Área",
+    },
+    {
+      accessorKey: "presupuesto",
+      header: "Presupuesto",
+    },
   ]
 };
 
