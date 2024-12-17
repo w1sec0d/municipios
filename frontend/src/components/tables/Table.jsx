@@ -23,7 +23,6 @@ import { useState } from "react";
 
 import { createData, updateData, deleteData } from "../../services/apiService";
 import validationSchemas from "../../services/validations";
-import Swal from "sweetalert2";
 import showValidationErrors from "../../services/showValidationResult";
 import { useNotification } from "../NotificationContext";
 
@@ -40,18 +39,16 @@ const transformEmptyStringsToNull = (obj) => {
 };
 
 
-
 const Table = ({ apiRoute }) => {
   const showNotification = useNotification();
-
+  
   // Fetches data from api based on apiRoute
   const [reload, setReload] = useState(false);
   const { data, loading, error } = useFetchData(apiRoute, reload);
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false);
   const [rowToDelete, setRowToDelete] = useState(null);
-
+  
   // Id name of the table "id_persona", "id_vivienda" etc
-
   const idName = "id_" + apiRoute.slice(0, -1);
 
   const handleEdit = async (info) => {
@@ -69,6 +66,7 @@ const Table = ({ apiRoute }) => {
       if(res.status === 200){
         setReload(!reload);
         showNotification("success", "Editado exitosamente");
+        info.table.setEditingRow(null); // Cerrar el modal de edición
       }
     } catch (validationErrors) {
       console.error("Validation errors:", validationErrors.inner);
@@ -82,19 +80,23 @@ const Table = ({ apiRoute }) => {
     const transformedValues = transformEmptyStringsToNull(info.values);
 
     try {
-      await validationSchemas[apiRoute].validate(transformedValues, {
+      const validation = await validationSchemas[apiRoute].validate(transformedValues, {
         abortEarly: false,
       });
+      console.log({ validation });
+      
       const res = await createData(apiRoute, transformedValues);
 
       if(res.status === 200){
         setReload(!reload);
         showNotification("success", "Creado exitosamente");
+        info.table.setCreatingRow(null); // Cerrar el modal de creación
       }
     } catch (validationErrors) {
       console.error("Validation errors:", validationErrors.inner);
       showValidationErrors(validationErrors, "Error al crear");
       showNotification("error", "Error al crear");
+
     }
   };
 
@@ -103,6 +105,8 @@ const Table = ({ apiRoute }) => {
     console.log(row.original.id_persona);
     setDeleteConfirmModalOpen(false);
     const res = await deleteData(apiRoute, row.original[idName]);
+    console.log({res});
+    
     if(res.status === 200){
       setReload(!reload);
       showNotification("success", "Eliminado exitosamente");
@@ -120,14 +124,8 @@ const Table = ({ apiRoute }) => {
     enableColumnOrdering: true,
     enableEditing: true,
     createDisplayMode: 'modal',
-    onCreatingRowSave: async (info) => {
-      await handleCreate(info);
-      table.setCreatingRow(false); 
-    },
-    onEditingRowSave: async (info) => {
-      await handleEdit(info);
-      table.setEditingRow(null); 
-    },
+    onCreatingRowSave: handleCreate,
+    onEditingRowSave: handleEdit,
     getRowId: (row) => row.id,
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
@@ -138,7 +136,7 @@ const Table = ({ apiRoute }) => {
           {internalEditComponents} {/* or render custom edit components here */}
         </DialogContent>
         <DialogActions>
-          <MRT_EditActionButtons variant="text" table={table} row={row} />
+          <MRT_EditActionButtons variant="text" table={table} row={row}/>
         </DialogActions>
       </>
     ),

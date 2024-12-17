@@ -33,13 +33,8 @@ const columns = {
     {
       accessorKey: "id_municipio",
       header: "ID",
+      editable: false,
     },
-    {
-      accessorKey: "PERSONA_id_persona",
-      header: "ID Cabeza de Familia",
-    },
-  ],
-  municipios: [
     {
       accessorKey: "nombre",
       header: "Nombre",
@@ -70,8 +65,6 @@ const columns = {
       accessorKey: "DEPARTAMENTO_id_departamento",
       header: "ID Departamento",
     },
-  ],
-  proyectos: [
     {
       accessorKey: "nombre",
       header: "Nombre",

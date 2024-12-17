@@ -1,6 +1,9 @@
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
-const showValidationErrors = (validationErrors, text = "Error al actualizar los datos") => {
+const showValidationErrors = (
+  validationErrors,
+  text = "Error al actualizar los datos"
+) => {
   Swal.fire({
     title: "error",
     text: text,
