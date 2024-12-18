@@ -86,7 +86,8 @@ const Table = ({ apiRoute }) => {
       await validationSchemas[apiRoute].validate(transformedValues, {
         abortEarly: false,
       });
-      const res = await updateData(apiRoute, transformedValues[idName], transformedValues);
+      const id = info.row.original[idName] ?? transformedValues[idName]
+      const res = await updateData(apiRoute, id, transformedValues);
       // Only if the update was successful
       if(res.status === 200){
         showNotification("success", "Editado exitosamente");
