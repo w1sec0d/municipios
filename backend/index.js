@@ -28,7 +28,6 @@ app.use(morgan(" :method :url :response-time :requestBody"));
 app.use("/", departamentosRoutes);
 app.use("/", homeRoutes);
 app.use("/", projectRoutes);
-
 app.use("/", personaRoutes);
 app.use("/", municipioRoutes);
 app.use("/", eventoRoutes);
