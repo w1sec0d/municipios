@@ -1,5 +1,12 @@
-import Header from './components/header.jsx';
-import Home from './components/home.jsx';
+// Generado con Copilot
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Header from './components/Header';
+import Table from './components/tables/table';
+import Home from "./components/home"
+import { NotificationProvider } from './components/NotificationContext'; // Importar el proveedor de notificación
 
 import {
   BrowserRouter as Router,
@@ -9,44 +16,33 @@ import {
 import Table from './components/tables/table.jsx';
 import ConfirmDialog from './components/ConfirmDialog.jsx';
 
-//Funcion para probar la conexion con el backend
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 const App = () => {
   return (
-    <>
-      <ConfirmDialog />
-      <Router>
-        <Header/>
-        <Routes>
-          <Route path="/" element= <Home/> />
-          <Route 
-            path="/Persona" 
-            element={<Table apiRoute="personas" />} />
-          <Route 
-            path="/Municipio" 
-            element={<Table apiRoute="municipios" />} />
-          <Route 
-            path="/Vivienda" 
-            element={<Table apiRoute="viviendas" />} />
-          <Route 
-            path="/Departamento" 
-            element={<Table apiRoute="departamentos" />} />
-          <Route 
-            path="/Evento" 
-            element={<Table apiRoute="eventos" />} />
-          <Route 
-            path="/Proyecto" 
-            element={<Table apiRoute="proyectos" />} />
-          <Route 
-            path="/Responsable" 
-            element={<Table apiRoute="responsables" />} />
-          <Route 
-            path="/Propiedad" 
-            element={<Table apiRoute="propiedades" />} />
-        </Routes>
-      </Router>
-    </>
-  )
-}
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <NotificationProvider>
+        <Router>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home/>} />
+            <Route path="/Persona" element={<Table apiRoute="personas" />} />
+            <Route path="/Municipio" element={<Table apiRoute="municipios" />} />
+            <Route path="/Vivienda" element={<Table apiRoute="viviendas" />} />
+            <Route path="/Departamento" element={<Table apiRoute="departamentos" />} />
+            <Route path="/Envento" element={<Table apiRoute="eventos" />} />
+            <Route path="/Proyecto" element={<Table apiRoute="proyectos" />} />
+          </Routes>
+        </Router>
+      </NotificationProvider>
+    </ThemeProvider>
+  );
+};
 
-export default App
+export default App;
+

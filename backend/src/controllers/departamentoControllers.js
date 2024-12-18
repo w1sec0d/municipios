@@ -34,8 +34,8 @@ const viewDepartment = async (req,res) => {
 //Actualizar un departamento
 const updateDepartment = async(req, res) => {
 
-
-    const {id, nombre, area, poblacion} = req.body;
+    const {id} = req.params;
+    const {nombre, area, poblacion} = req.body;
 
     let fieldsToUpdate = [];
     if(nombre) fieldsToUpdate.push(`nombre = '${nombre}'`);

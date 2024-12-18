@@ -31,6 +31,11 @@ const columns = {
   ],
   municipios: [
     {
+      accessorKey: "id_municipio",
+      header: "ID",
+      editable: false,
+    },
+    {
       accessorKey: "nombre",
       header: "Nombre",
     },
@@ -53,8 +58,12 @@ const columns = {
   ],
   proyectos: [
     {
-      accessorKey: "MUNICIPIO_id_municipio",
-      header: "Municipio",
+      accessorKey: "PERSONA_id_persona",
+      header: "ID Gobernador",
+    },
+    {
+      accessorKey: "DEPARTAMENTO_id_departamento",
+      header: "ID Departamento",
     },
     {
       accessorKey: "nombre",
@@ -76,6 +85,7 @@ const columns = {
       accessorKey: "fecha_fin",
       header: "Fecha de Fin",
     },
+
     {
       accessorKey: "estado",
       header: "Estado",
@@ -86,6 +96,10 @@ const columns = {
     },
   ],
   viviendas: [
+    {
+      accessorKey: "estado",
+      header: "Estado",
+    },
     {
       accessorKey: "MUNICIPIO_id_municipio",
       header: "ID Municipio",

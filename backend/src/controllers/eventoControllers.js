@@ -1,5 +1,14 @@
 const database = require('../../database.js')
 
+// Función para formatear las fechas al formato YYYY-MM-DD
+const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
 //------------------- OBTENER TODOS LOS EVENTOS --------------------------
 const getEvento = async (req, res) => {
     database.query('SELECT * FROM EVENTO', (err, rows) => {
@@ -7,8 +16,15 @@ const getEvento = async (req, res) => {
             console.error(err);
             res.status(500).send('An error occurred while processing your request.');
             return;
+        }else{
+            // Transformar las fechas al formato YYYY-MM-DD
+            const formattedResult = rows.map((event) => ({
+                ...event,
+                fecha_inicio: formatDate(event.fecha_inicio),
+                fecha_fin: formatDate(event.fecha_fin),
+            }));
+            res.send(formattedResult);
         }
-        res.send(rows);
     });
 };
 //-----------------------------------------------------------------
