@@ -27,10 +27,7 @@ import {
         </DialogContent>
         <DialogActions>
           <Button color="primary" variant="contained" onClick={()=>setIsOpen(!open)}>
-            Cancelar
-          </Button>
-          <Button color="secondary" variant="contained" onClick={onConfirm}>
-            Confirmar
+            Volver
           </Button>
         </DialogActions>
       </Dialog>

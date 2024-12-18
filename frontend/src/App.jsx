@@ -6,7 +6,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import Table from './components/tables/table.jsx'; // Generado con Copilot
+import Table from './components/tables/table.jsx';
 import ConfirmDialog from './components/ConfirmDialog.jsx';
 
 //Funcion para probar la conexion con el backend
@@ -23,7 +23,7 @@ const App = () => {
             path="/Persona" 
             element={<Table apiRoute="personas" />} />
           <Route 
-            path="/Municipio/*" 
+            path="/Municipio" 
             element={<Table apiRoute="municipios" />} />
           <Route 
             path="/Vivienda" 
