@@ -234,7 +234,7 @@ const columns = {
   "personas/propiedades": [
     {
       accessorKey: "direccion",
-      header: "direccion",
+      header: "Direccion",
     },
     {
       accessorKey: "capacidad",

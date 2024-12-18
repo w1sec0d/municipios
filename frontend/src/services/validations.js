@@ -9,7 +9,7 @@ const validationRules = {
     nombre: yup.string().required('El nombre es obligatorio'),
     telefono: yup
       .string()
-      .matches(phoneRegExp, 'El telefono debe tener el formato +## ########## o #########(9)')
+      .matches(phoneRegExp, 'El telefono debe tener el formato +## ########## o #########(10)')
       .required('El telefono es obligatorio'),
     edad: yup.number('La edad debe ser un valor numérico').required('La edad es obligatoria').positive('La edad debe ser positiva').integer('La edad debe ser un número entero'),
     sexo: yup.string().oneOf(['M', 'F'], 'El sexo debe ser M o F').notRequired(),

@@ -88,9 +88,9 @@ const Table = ({ apiRoute }) => {
       const res = await updateData(apiRoute, transformedValues[idName], transformedValues);
       // Only if the update was successful
       if(res.status === 200){
-        setReload(!reload);
         showNotification("success", "Editado exitosamente");
         info.table.setEditingRow(null); // Cerrar el modal de edición
+        setReload(!reload);
       }
     } catch (validationErrors) {
       console.error("Validation errors:", validationErrors.inner);

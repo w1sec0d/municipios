@@ -28,7 +28,7 @@ const App = () => {
             <Route path="/Municipio" element={<Table apiRoute="municipios" />} />
             <Route path="/Vivienda" element={<Table apiRoute="viviendas" />} />
             <Route path="/Departamento" element={<Table apiRoute="departamentos" />} />
-            <Route path="/Envento" element={<Table apiRoute="eventos" />} />
+            <Route path="/Evento" element={<Table apiRoute="eventos" />} />
             <Route path="/Proyecto" element={<Table apiRoute="proyectos" />} />
           </Routes>
         </Router>

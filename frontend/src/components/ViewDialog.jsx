@@ -16,11 +16,11 @@ import {
     return (
       <Dialog open={isOpen} maxWidth="sm" fullWidth>
         <DialogTitle>{title}</DialogTitle>
-        <Box position="absolute" top={0} right={0}>
+        {/* <Box position="absolute" top={0} right={0}>
           <IconButton onClick={()=>setIsOpen(!isOpen)}>
             <CloseIcon/>
           </IconButton>
-        </Box>
+        </Box> */}
         <DialogContent>
           
           <ViewTable apiRoute={apiRoute} id={id}/>
