@@ -33,6 +33,7 @@ const columns = {
     {
       accessorKey: "id_municipio",
       header: "ID",
+      editable: false,
     },
     {
       accessorKey: "nombre",
@@ -57,12 +58,12 @@ const columns = {
   ],
   proyectos: [
     {
-      accessorKey: "id_proyecto", // Match the key in the data
-      header: "ID", // Displayed in the table header
+      accessorKey: "PERSONA_id_persona",
+      header: "ID Gobernador",
     },
     {
-      accessorKey: "MUNICIPIO_id_municipio",
-      header: "Municipio",
+      accessorKey: "DEPARTAMENTO_id_departamento",
+      header: "ID Departamento",
     },
     {
       accessorKey: "nombre",
@@ -84,6 +85,7 @@ const columns = {
       accessorKey: "fecha_fin",
       header: "Fecha de Fin",
     },
+
     {
       accessorKey: "estado",
       header: "Estado",
@@ -95,8 +97,8 @@ const columns = {
   ],
   viviendas: [
     {
-      accessorKey: "id_vivienda", // Match the key in the data
-      header: "ID", // Displayed in the table header
+      accessorKey: "estado",
+      header: "Estado",
     },
     {
       accessorKey: "MUNICIPIO_id_municipio",
@@ -116,10 +118,6 @@ const columns = {
     },
   ],
   eventos: [
-    {
-      accessorKey: "id_evento", // Match the key in the data
-      header: "ID", // Displayed in the table header
-    },
     {
       accessorKey: "MUNICIPIO_id_municipio",
       header: "ID Municipio",
@@ -146,10 +144,6 @@ const columns = {
     },
   ],
   departamentos: [
-    {
-      accessorKey: "id_departamento", // Match the key in the data
-      header: "ID", // Displayed in the table header
-    },
     {
       accessorKey: "nombre",
       header: "Nombre",

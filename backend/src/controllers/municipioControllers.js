@@ -57,14 +57,15 @@ const deleteMunicipio = async (req, res) => {
 //-------------------- MODIFICAR ATRIBUTOS DE MUNICIPIO --------------------
 const updateMunicipio = async (req, res) => {
     const { id } = req.params;
-    const { nombre, area, presupuesto, PERSONA_id_persona, DEPARTAMENTO_id_departamento} = req.body
+    const { nombre, area, presupuesto, PERSONA_id_persona} = req.body
 
     let fieldsToUpdate = [];
     if (nombre) fieldsToUpdate.push(`nombre = '${nombre}'`);
     if (area) fieldsToUpdate.push(`area = ${area}`);
     if (presupuesto) fieldsToUpdate.push(`presupuesto = ${presupuesto}`);
-    if (PERSONA_id_persona) fieldsToUpdate.push(`PERSONA_id_persona = ${PERSONA_id_persona}`);
-    if (DEPARTAMENTO_id_departamento) fieldsToUpdate.push(`DEPARTAMENTO_id_departamento = ${DEPARTAMENTO_id_departamento}`);
+    if (PERSONA_id_persona !== undefined){
+        fieldsToUpdate.push(`PERSONA_id_persona = ${PERSONA_id_persona === null ? 'NULL' : PERSONA_id_persona}`);
+    }
 
     const query = `UPDATE MUNICIPIO SET ${fieldsToUpdate.join(', ')} WHERE id_municipio = ${id}`;
     database.query(query, (err, rows) => {

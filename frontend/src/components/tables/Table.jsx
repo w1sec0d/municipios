@@ -1,53 +1,127 @@
 import PropTypes from "prop-types";
-import { MaterialReactTable, MRT_EditActionButtons, useMaterialReactTable } from "material-react-table";
-import { Box, Button, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip } from "@mui/material";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {
+  MaterialReactTable,
+  MRT_EditActionButtons,
+  useMaterialReactTable,
+} from "material-react-table";
+import {
+  Box,
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import tableColumns from "./columns";
 import useFetchData from "../../hooks/useFetchData";
 import ConfirmDialog from "../ConfirmDialog";
 import { useState } from "react";
-import {createData, updateData, deleteData } from "../../services/apiService";
-import { Label } from "@mui/icons-material";
+
+import { createData, updateData, deleteData } from "../../services/apiService";
+import validationSchemas from "../../services/validations";
+import showValidationErrors from "../../services/showValidationResult";
+import { useNotification } from "../NotificationContext";
+
+const transformEmptyStringsToNull = (obj) => {
+  const transformedObj = {};
+  for (const key in obj) {
+    if (obj[key] === "") {
+      transformedObj[key] = null;
+    } else {
+      transformedObj[key] = obj[key];
+    }
+  }
+  return transformedObj;
+};
 
 
 const Table = ({ apiRoute }) => {
+  const showNotification = useNotification();
+  
   // Fetches data from api based on apiRoute
-  const { data, loading, error } = useFetchData(apiRoute);
+  const [reload, setReload] = useState(false);
+  const { data, loading, error } = useFetchData(apiRoute, reload);
   const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false);
   const [rowToDelete, setRowToDelete] = useState(null);
-
+  
   // Id name of the table "id_persona", "id_vivienda" etc
-  const idName = "id_"+ apiRoute.slice(0, -1);
+  const idName = "id_" + apiRoute.slice(0, -1);
 
-  const handleEdit = (info)=>{
+  const handleEdit = async (info) => {
     console.log("editing:");
     console.log(info);
-    updateData(apiRoute, info.values[idName], info.values);
-  }
-  const handleCreate = (info)=>{
+
+    const transformedValues = transformEmptyStringsToNull(info.values);
+
+    try {
+      await validationSchemas[apiRoute].validate(transformedValues, {
+        abortEarly: false,
+      });
+      const res = await updateData(apiRoute, transformedValues[idName], transformedValues);
+      // Only if the update was successful
+      if(res.status === 200){
+        setReload(!reload);
+        showNotification("success", "Editado exitosamente");
+        info.table.setEditingRow(null); // Cerrar el modal de edición
+      }
+    } catch (validationErrors) {
+      console.error("Validation errors:", validationErrors.inner);
+      showValidationErrors(validationErrors, "Error al actualizar ");
+      showNotification("error", "Error al actualizar");
+    }
+  };
+  const handleCreate = async (info) => {
     console.log("creating:");
     console.log(info.values);
-    createData(apiRoute, info.values);
-  }
-  const handleDelete = (row)=> {
+    const transformedValues = transformEmptyStringsToNull(info.values);
+
+    try {
+      const validation = await validationSchemas[apiRoute].validate(transformedValues, {
+        abortEarly: false,
+      });
+      console.log({ validation });
+      
+      const res = await createData(apiRoute, transformedValues);
+
+      if(res.status === 200){
+        setReload(!reload);
+        showNotification("success", "Creado exitosamente");
+        info.table.setCreatingRow(null); // Cerrar el modal de creación
+      }
+    } catch (validationErrors) {
+      console.error("Validation errors:", validationErrors.inner);
+      showValidationErrors(validationErrors, "Error al crear");
+      showNotification("error", "Error al crear");
+
+    }
+  };
+
+  const handleDelete = async(row) => {
     console.log("deleting id:");
     console.log(row.original.id_persona);
     setDeleteConfirmModalOpen(false);
-    deleteData(apiRoute, row.original[idName]);
-  }
-
+    const res = await deleteData(apiRoute, row.original[idName]);
+    console.log({res});
+    
+    if(res.status === 200){
+      setReload(!reload);
+      showNotification("success", "Eliminado exitosamente");
+    }
+  };
 
   const openDeleteConfirmModal = (row) => {
     setRowToDelete(row);
     setDeleteConfirmModalOpen(true);
-  }
+  };
 
   const table = useMaterialReactTable({
     data: data,
     columns: tableColumns[apiRoute],
-    enableColumnOrdering: true, 
+    enableColumnOrdering: true,
     enableEditing: true,
     createDisplayMode: 'modal',
     onCreatingRowSave: handleCreate,
@@ -57,20 +131,20 @@ const Table = ({ apiRoute }) => {
       <>
         <DialogTitle variant="h3">Crear nuevo</DialogTitle>
         <DialogContent
-          sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+          sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
         >
           {internalEditComponents} {/* or render custom edit components here */}
         </DialogContent>
         <DialogActions>
-          <MRT_EditActionButtons variant="text" table={table} row={row} />
+          <MRT_EditActionButtons variant="text" table={table} row={row}/>
         </DialogActions>
       </>
     ),
     renderRowActions: ({ row, table }) => (
-      <Box sx={{ display: 'flex', gap: '1rem' }}>
+      <Box sx={{ display: "flex", gap: "1rem" }}>
         <Tooltip title="Edit">
           <IconButton onClick={() => table.setEditingRow(row)}>
-            <EditIcon />
+            <EditIcon className="text-white"/>
           </IconButton>
         </Tooltip>
         <Tooltip title="Delete">
@@ -102,6 +176,7 @@ const Table = ({ apiRoute }) => {
       showAlertBanner: error,
       // showProgressBars: isFetchingUsers,
     },
+    //Table aspect props
     muiTopToolbarProps: {
       sx: {
         backgroundColor: '#27272a',
@@ -114,12 +189,25 @@ const Table = ({ apiRoute }) => {
         color: 'white',
       }
     },
+    muiTableProps: {
+      sx: {
+        border: '1px solid rgba(81, 81, 81, .5)',
+        caption: {
+          captionSide: 'top',
+        },
+      },
+    },
     //Table header props
     muiTableHeadCellProps: {
       sx: {
         backgroundColor: '#27272a',
         color: '#4FDBFF',
         fontFamily: 'Raleway',
+      },
+    },
+    muiTableToolbarButtonProps: {
+      sx: {
+        color: 'white', // Cambiar el color de los iconos de la barra de herramientas
       },
     },
 
@@ -141,7 +229,7 @@ const Table = ({ apiRoute }) => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <label className="text-zinc-100">Lista de {apiRoute}s</label>
+      <label className="text-zinc-100">Lista de {apiRoute}</label>
       <MaterialReactTable table={table}/>
       <ConfirmDialog isOpen={deleteConfirmModalOpen} setIsOpen={setDeleteConfirmModalOpen} onConfirm={()=>handleDelete(rowToDelete)}/>
     </div>

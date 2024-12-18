@@ -30,10 +30,10 @@ const ConfirmDialog = ({isOpen=false, setIsOpen, title="¿Estás seguro de borra
         <Typography>{description}</Typography>
       </DialogContent>
       <DialogActions>
-        <Button color="primary" variant="contained" onClick={()=>setIsOpen(!open)}>
+        <Button color="error" variant="contained" onClick={()=>setIsOpen(!open)}>
           Cancelar
         </Button>
-        <Button color="secondary" variant="contained" onClick={onConfirm}>
+        <Button color="primary" variant="contained" onClick={onConfirm}>
           Confirmar
         </Button>
       </DialogActions>
