@@ -57,14 +57,7 @@ const columns = {
     },
   ],
   proyectos: [
-    {
-      accessorKey: "PERSONA_id_persona",
-      header: "ID Gobernador",
-    },
-    {
-      accessorKey: "DEPARTAMENTO_id_departamento",
-      header: "ID Departamento",
-    },
+
     {
       accessorKey: "nombre",
       header: "Nombre",
@@ -96,10 +89,6 @@ const columns = {
     },
   ],
   viviendas: [
-    {
-      accessorKey: "estado",
-      header: "Estado",
-    },
     {
       accessorKey: "MUNICIPIO_id_municipio",
       header: "ID Municipio",
