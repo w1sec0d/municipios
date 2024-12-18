@@ -1,9 +1,9 @@
 const columns = {
   personas: [
-    {
-      accessorKey: "id_persona", // Match the key in the data
-      header: "ID", // Displayed in the table header
-    },
+    // {
+    //   accessorKey: "id_persona", // Match the key in the data
+    //   header: "ID", // Displayed in the table header
+    // },
     {
       accessorKey: "nombre",
       header: "Nombre",
@@ -20,14 +20,14 @@ const columns = {
       accessorKey: "sexo",
       header: "Sexo",
     },
-    {
-      accessorKey: "VIVIENDA_id_vivienda",
-      header: "ID Vivienda",
-    },
-    {
-      accessorKey: "PERSONA_id_persona",
-      header: "ID Cabeza de Familia",
-    },
+    // {
+    //   accessorKey: "VIVIENDA_id_vivienda",
+    //   header: "ID Vivienda",
+    // },
+    // {
+    //   accessorKey: "PERSONA_id_persona",
+    //   header: "ID Cabeza de Familia",
+    // },
   ],
   municipios: [
     {
@@ -230,7 +230,35 @@ const columns = {
       accessorKey: "niveles",
       header: "Niveles",
     },
-  ]
+  ],
+  "viviendas/residentes": [
+      {
+        accessorKey: "nombre",
+        header: "Nombre",
+      },
+      {
+        accessorKey: "telefono",
+        header: "Telefono",
+      },
+      {
+        accessorKey: "edad",
+        header: "Edad",
+      },
+      {
+        accessorKey: "sexo",
+        header: "Fecha de Inicio",
+      },
+  ],
+  "proyectos/encargados": [
+      {
+        accessorKey: "nombre",
+        header: "Nombre",
+      },
+      {
+        accessorKey: "telefono",
+        header: "Telefono",
+      },
+  ],
 };
 
 export default columns;

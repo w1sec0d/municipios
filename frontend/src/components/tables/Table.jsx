@@ -8,7 +8,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EventIcon from '@mui/icons-material/Event';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
-import HomeIcon from '@mui/icons-material/Home';
+import KeyIcon from '@mui/icons-material/Key';
+import GroupIcon from '@mui/icons-material/Group';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 
 //Component imports
 import tableColumns from "./columns";
@@ -19,7 +21,7 @@ import ViewDialog from "../ViewDialog";
 import { useState } from "react";
 import {createData, updateData, deleteData } from "../../services/apiService";
 
-const ExtraButton = ({title, Icon, api, row, func}) => {
+const ExtraButton = ({title, api, row, func, Icon}) => {
   return (
     <Tooltip title={title}>
       <IconButton onClick={() => func(row, api)}>
@@ -28,6 +30,7 @@ const ExtraButton = ({title, Icon, api, row, func}) => {
     </Tooltip>
   );
 }
+
 const Table = ({ apiRoute }) => {
   // Fetches data from api based on apiRoute
   const [reload, setReload] = useState(false);
@@ -121,14 +124,22 @@ const Table = ({ apiRoute }) => {
         {apiRoute == 'departamentos' ? <ExtraButton title="Municipalities" Icon={LocationCityIcon} api='municipios' row={row} func={openViewModal}/>
                                   : null}
 
-        {/**/}
+        {/*person buttons*/}
         {apiRoute == 'personas' ? 
         <>
         <ExtraButton title="Dependants" Icon={FamilyRestroomIcon} api='dependientes' row={row} func={openViewModal}/>
-        <ExtraButton title="properties" Icon={HomeIcon} api='propiedades' row={row} func={openViewModal}/>
+        <ExtraButton title="properties" Icon={KeyIcon} api='propiedades' row={row} func={openViewModal}/>
         </>
                                   :null}
         
+        {/* residens button for homes*/}
+        {apiRoute == 'viviendas' ? <ExtraButton title="Residents" Icon={GroupIcon} api='residentes' row={row} func={openViewModal}/>
+                                  : null}
+
+        {/* in chanrge person button for proyects*/}
+        {apiRoute == 'proyectos' ? <ExtraButton title="In charge" Icon={EmojiPeopleIcon} api='encargados' row={row} func={openViewModal}/>
+                                  : null}
+
       </Box>
     ),
     renderTopToolbarCustomActions: ({ table }) => (

@@ -83,10 +83,26 @@ const deleteProject = async(req, res) => {
 
 }
 
+const getCharge = async(req, res) => {
+
+    const { id } = req.params;
+    database.query('SELECT * FROM vistaResponsableProyecto WHERE id_proyecto = ?', [id],
+        (err,result) => {
+            if(err){
+                console.error(err);
+                res.status(500).send('An error ocurred while processing your request');
+            }else{
+                res.send(result)
+            }
+        }
+    )
+}
+
 module.exports = {
 
     registerProject,
     viewProject,
     updateProject,
-    deleteProject
+    deleteProject,
+    getCharge
 };
