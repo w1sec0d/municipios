@@ -90,8 +90,8 @@ const columns = {
   ],
   viviendas: [
     {
-      accessorKey: "MUNICIPIO_id_municipio",
-      header: "ID Municipio",
+      accessorKey: "municipio_nombre",
+      header: "Municipio",
     },
     {
       accessorKey: "direccion",

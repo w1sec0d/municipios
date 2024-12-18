@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { 
   MaterialReactTable, 
   MRT_EditActionButtons, 
+  MRT_SelectCheckbox, 
   useMaterialReactTable 
 } from "material-react-table";
 import { 
@@ -30,12 +31,14 @@ import tableColumns from "./columns";
 import useFetchData from "../../hooks/useFetchData";
 import ConfirmDialog from "../ConfirmDialog";
 import ViewDialog from "../ViewDialog";
+import CEDialog from "../Dialog";
 
 import { useState } from "react";
 import { createData, updateData, deleteData } from "../../services/apiService";
 import validationSchemas from "../../services/validations";
 import showValidationErrors from "../../services/showValidationResult";
 import { useNotification } from "../NotificationContext";
+
 
 const ExtraButton = ({title, api, row, func, Icon}) => {
   return (
@@ -72,7 +75,7 @@ const Table = ({ apiRoute }) => {
   const [view, setView] = useState(null);
   const [apiId, setApiId] = useState(null);
   const [title, setTitle] = useState(null);
-  
+  const [selectedValue, setSelectedValue] = useState('');
   // Id name of the table "id_persona", "id_vivienda" etc
   const idName = "id_" + apiRoute.slice(0, -1);
 
@@ -102,7 +105,7 @@ const Table = ({ apiRoute }) => {
   const handleCreate = async (info) => {
     console.log("creating:");
     console.log(info.values);
-    const transformedValues = transformEmptyStringsToNull(info.values);
+    const transformedValues = transformEmptyStringsToNull({...info.values, municipio_nombre: selectedValue});
 
     try {
       const validation = await validationSchemas[apiRoute].validate(transformedValues, {
@@ -138,6 +141,10 @@ const Table = ({ apiRoute }) => {
     }
   };
 
+  const handleDropdownChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
   const openDeleteConfirmModal = (row) => {
     setRowToDelete(row);
     setDeleteConfirmModalOpen(true);
@@ -164,18 +171,23 @@ const Table = ({ apiRoute }) => {
     onCreatingRowSave: handleCreate,
     onEditingRowSave: handleEdit,
     getRowId: (row) => row.id,
+    renderEditRowDialogContent: ({ table, row, internalEditComponents }) => (
+      <CEDialog 
+        table={table} 
+        row={row} 
+        internalEditComponents={internalEditComponents} 
+        apiRoute={apiRoute} 
+        selectedValue={selectedValue} 
+        handleDropdownChange={handleDropdownChange}/>
+    ),
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
-      <>
-        <DialogTitle variant="h3">Crear nuevo</DialogTitle>
-        <DialogContent
-          sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-        >
-          {internalEditComponents} {/* or render custom edit components here */}
-        </DialogContent>
-        <DialogActions>
-          <MRT_EditActionButtons variant="text" table={table} row={row}/>
-        </DialogActions>
-      </>
+      <CEDialog 
+        table={table} 
+        row={row} 
+        internalEditComponents={internalEditComponents} 
+        apiRoute={apiRoute} 
+        selectedValue={selectedValue} 
+        handleDropdownChange={handleDropdownChange}/>
     ),
     renderRowActions: ({ row, table }) => (
       <Box sx={{ display: "flex", gap: "1rem" }}>

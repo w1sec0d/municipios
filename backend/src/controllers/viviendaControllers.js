@@ -1,27 +1,37 @@
 const database = require("../../database.js");
 
 const registerHouse = async(req,res) => {
-    const {MUNICIPIO_id_municipio, direccion, capacidad, niveles} = req.body;
+    const {direccion, capacidad, niveles, municipio_nombre} = req.body;
 
-    if (!direccion || !capacidad || !niveles || !MUNICIPIO_id_municipio) { 
+    if (!direccion || !capacidad || !niveles || !municipio_nombre) { 
         return res.status(400).send('An error occurred while processing your request.'); }
     
-    database.query('INSERT INTO VIVIENDA (MUNICIPIO_id_municipio,direccion,capacidad,niveles) VALUES (?,?,?,?)',
-        [MUNICIPIO_id_municipio,direccion,capacidad,niveles],
-        (err, result) => {
-            if(err){
+        const checkMunicipioQuery = 'SELECT id_municipio FROM MUNICIPIO WHERE nombre = ?';
+        database.query(checkMunicipioQuery, [municipio_nombre], (err, results) => {
+            if (err) {
                 console.error(err);
-                res.status(500).send('An error occurred while processing your request.');
-            }else{
-                res.send('successfully.');
+                return res.status(500).send('An error occurred while processing your request.');
             }
-        }
-    )
+            if (results.length === 0) {
+                return res.status(400).send('The specified municipality does not exist.');
+            }
+
+            const id_municipio = results[0].id_municipio;
+
+            const insertHouseQuery = 'INSERT INTO VIVIENDA (MUNICIPIO_id_municipio, direccion, capacidad, niveles) VALUES (?, ?, ?, ?)';
+            database.query(insertHouseQuery, [id_municipio, direccion, capacidad, niveles], (err, result) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).send('An error occurred while processing your request.');
+                }
+                res.send('House registered successfully.');
+            });
+        });
 }
 
 const viewHouses = async(req,res) => {
 
-    database.query('SELECT * FROM VIVIENDA',
+    database.query('SELECT v.*, municipio.nombre AS municipio_nombre FROM VIVIENDA v JOIN MUNICIPIO municipio ON v.MUNICIPIO_id_municipio = municipio.id_municipio',
         (err,result) => {
             if(err){
                 console.error(err);
