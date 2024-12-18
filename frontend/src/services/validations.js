@@ -5,6 +5,7 @@ const phoneRegExp = /^([+][0-9]{1,3} )?[0-9]{10}$/;
 const validationRules = {
   // VALIDACIONES PERSONAS
   personas: yup.object().shape({
+    id_persona : yup.number('La ID persona debe ser un número').integer('La ID persona debe ser un número entero').positive('La ID persona debe ser un número positivo').nullable(),
     nombre: yup.string().required('El nombre es obligatorio'),
     telefono: yup
       .string()
