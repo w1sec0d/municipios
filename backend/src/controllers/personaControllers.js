@@ -142,8 +142,6 @@ const getPropiedades = async (req, res) => {
         res.send(rows);
     });
 }
-=======
-
 
 module.exports = {
     getPersona,

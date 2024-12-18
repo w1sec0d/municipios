@@ -4,16 +4,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Header from './components/Header';
-import Table from './components/tables/table';
+import Table from './components/tables/Table.jsx';
 import Home from "./components/home"
 import { NotificationProvider } from './components/NotificationContext'; // Importar el proveedor de notificación
-
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
-import Table from './components/tables/table.jsx';
 import ConfirmDialog from './components/ConfirmDialog.jsx';
 
 const darkTheme = createTheme({
