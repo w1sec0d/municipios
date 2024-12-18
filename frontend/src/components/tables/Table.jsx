@@ -71,6 +71,7 @@ const Table = ({ apiRoute }) => {
   const [rowToDelete, setRowToDelete] = useState(null);
   const [view, setView] = useState(null);
   const [apiId, setApiId] = useState(null);
+  const [title, setTitle] = useState(null);
   
   // Id name of the table "id_persona", "id_vivienda" etc
   const idName = "id_" + apiRoute.slice(0, -1);
@@ -143,10 +144,14 @@ const Table = ({ apiRoute }) => {
   };
 
   const openViewModal = (row, viewName) => {
+    console.log(row.original);
+    apiRoute=='viviendas' ? setTitle( `Mostrando ${viewName} de ${row.original['direccion']}` )
+                          :setTitle( `Mostrando ${viewName} de ${row.original['nombre']}` );
     setView(`${apiRoute}/${viewName}`); 
     setApiId(row.original[idName]);
     setViewModalOpen(true);
   }
+
 
   
 
@@ -288,7 +293,7 @@ const Table = ({ apiRoute }) => {
       <label className="text-zinc-100">Lista de {apiRoute}</label>
       <MaterialReactTable table={table}/>
       <ConfirmDialog isOpen={deleteConfirmModalOpen} setIsOpen={setDeleteConfirmModalOpen} onConfirm={()=>handleDelete(rowToDelete)}/>
-      <ViewDialog isOpen={ViewModalOpen} setIsOpen={setViewModalOpen} onConfirm={()=>handleDelete(rowToDelete)} apiRoute={view} id={apiId}/>
+      <ViewDialog isOpen={ViewModalOpen} setIsOpen={setViewModalOpen} onConfirm={()=>handleDelete(rowToDelete)} apiRoute={view} id={apiId} title={title}/>
     </div>
   );
 };
