@@ -78,9 +78,23 @@ const updateMunicipio = async (req, res) => {
     });
 }
 
+//----------------VER EVENTOS POR MUNICIPIO----------------------------
+const getEventosMunicipio = async (req, res) => {
+    const { id } = req.params;
+    database.query('SELECT * FROM vistaEventosMunicipio WHERE id_municipio = ?', [id], (err, rows) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while processing your request.');
+            return;
+        }
+        res.send(rows);
+    });
+}
+
 module.exports = {
     getMunicipios,
     insertMunicipio,
     deleteMunicipio,
-    updateMunicipio
+    updateMunicipio,
+    getEventosMunicipio
 }

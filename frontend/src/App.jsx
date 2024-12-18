@@ -8,6 +8,14 @@ import Table from './components/tables/table';
 import Home from "./components/home"
 import { NotificationProvider } from './components/NotificationContext'; // Importar el proveedor de notificación
 
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+import Table from './components/tables/table.jsx';
+import ConfirmDialog from './components/ConfirmDialog.jsx';
+
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',

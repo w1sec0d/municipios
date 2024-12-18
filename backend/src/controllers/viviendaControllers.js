@@ -76,9 +76,23 @@ const deleteHouse = async(req, res) => {
 
 }
 
+const getResidents = async(req,res) => {
+
+    const { id } = req.params;
+    database.query('SELECT * FROM vistaResidenciaPersona WHERE id_vivienda = ?',[id], (err, result) => {
+        if(err){
+            console.error(err);
+            res.status(500).send('An error ocurred while processing your request.');
+        }else{
+            res.send(result)
+        }
+    })
+}
+
 module.exports = {
     registerHouse,
     viewHouses,
     updateHouse,
-    deleteHouse
+    deleteHouse,
+    getResidents,
 };

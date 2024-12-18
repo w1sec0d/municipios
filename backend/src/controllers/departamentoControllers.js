@@ -75,11 +75,27 @@ const deleteDepartment = async(req, res) => {
     )
 };
 
+//Ver municipios de un departamento
+const getMunicipiosDepartamento = async(req, res) => {
+    const { id } = req.params;
+    database.query('SELECT * FROM vistaMunicipioDepartamento WHERE id_departamento = ?', [id],
+        (err,result) => {
+            if(err){
+                console.error(err);
+                res.status(500).send('An error occurred while processing your request.');
+            }else{
+                res.send(result);
+            }
+        }
+    )
+}
+
 module.exports = {
     registerDepartment,
     viewDepartment,
     updateDepartment,
-    deleteDepartment
+    deleteDepartment,
+    getMunicipiosDepartamento
 };
 
 
