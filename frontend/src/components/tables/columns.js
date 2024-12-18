@@ -58,6 +58,10 @@ const columns = {
   ],
   proyectos: [
     {
+      accessorKey: "id_proyecto",
+      header: "ID",
+    },
+    {
       accessorKey: "nombre",
       header: "Nombre",
     },
@@ -91,7 +95,6 @@ const columns = {
     {
       accessorKey: "id_vivienda",
       header: "ID",
-      enableEditing: false,
     },
     {
       accessorKey: "direccion",
@@ -112,8 +115,8 @@ const columns = {
   ],
   eventos: [
     {
-      accessorKey: "MUNICIPIO_id_municipio",
-      header: "ID Municipio",
+      accessorKey: "id_evento",
+      header: "ID",
     },
     {
       accessorKey: "nombre",
@@ -134,6 +137,10 @@ const columns = {
     {
       accessorKey: "fecha_fin",
       header: "Fecha de Fin",
+    },
+    {
+      accessorKey: "MUNICIPIO_id_municipio",
+      header: "ID Municipio",
     },
   ],
   departamentos: [
