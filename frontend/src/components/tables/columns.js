@@ -138,6 +138,10 @@ const columns = {
   ],
   departamentos: [
     {
+      accessorKey: "id_departamento",
+      header: "ID",
+    },
+    {
       accessorKey: "nombre",
       header: "Nombre",
     },
