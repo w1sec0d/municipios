@@ -3,11 +3,12 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Header from './components/Header';
+import Header from './components/Header.jsx';
 import Table from './components/tables/Table.jsx';
-import Home from "./components/home"
+import Home from "./components/Home.jsx"
 import { NotificationProvider } from './components/NotificationContext'; // Importar el proveedor de notificación
 import ConfirmDialog from './components/ConfirmDialog.jsx';
+import Footer from './components/Footer.jsx';
 
 const darkTheme = createTheme({
   palette: {
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/Evento" element={<Table apiRoute="eventos" />} />
             <Route path="/Proyecto" element={<Table apiRoute="proyectos" />} />
           </Routes>
+          <Footer />
         </Router>
       </NotificationProvider>
     </ThemeProvider>

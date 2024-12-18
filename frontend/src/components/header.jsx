@@ -1,6 +1,14 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
+const Tab = (props) => {
+    return(
+        <li className="mr-3">
+            <a className={`inline-block py-2 px-4 no-underline ${props.isActive(`/${props.direction}`) ? 'text-zinc-100' : 'text-blue-950'} hover:text-zinc-300`} href={props.direction}>{props.text}</a>
+        </li>
+    )
+}
+
 const Header = () => {
     const location = useLocation();
     
@@ -14,10 +22,10 @@ const Header = () => {
 
     return (
         <>
-        <nav className="bg-blue-950 p-2 mt-0 w-full">
+        <nav className="bg-sky-500 p-2 mt-0 w-full">
             <div className="container mx-auto flex flex-wrap items-center justify-between">
                 <div className="flex w-full md:w-auto justify-center md:justify-start text-white font-extrabold">
-                    <a className="text-white no-underline hover:text-white hover:no-underline" href="/">
+                    <a className="text-white text-2xl no-underline hover:text-white hover:no-underline" href="/">
                         CRUD
                     </a>
                 </div>
@@ -31,24 +39,12 @@ const Header = () => {
                 </div>
                 <div className={`w-full md:flex md:items-center md:w-auto ${isMenuOpen ? '' : 'hidden'}`}>
                     <ul className="list-reset flex flex-col md:flex-row justify-between flex-1 md:flex-none items-center">
-                        <li className="mr-3">
-                            <a className={`inline-block py-2 px-4 no-underline ${isActive('/Persona') ? 'text-white' : 'text-gray-400'} hover:text-gray-200`} href="Persona">Personas</a>
-                        </li>
-                        <li className="mr-3">
-                            <a className={`inline-block py-2 px-4 no-underline ${isActive('/Municipio') ? 'text-white' : 'text-gray-400'} hover:text-gray-200`} href="Municipio">Municipios</a>
-                        </li>
-                        <li className="mr-3">
-                            <a className={`inline-block py-2 px-4 no-underline ${isActive('/Vivienda') ? 'text-white' : 'text-gray-400'} hover:text-gray-200`} href="Vivienda">Viviendas</a>
-                        </li>
-                        <li className="mr-3">
-                            <a className={`inline-block py-2 px-4 no-underline ${isActive('/Departamento') ? 'text-white' : 'text-gray-400'} hover:text-gray-200`} href="Departamento">Departamentos</a>
-                        </li>
-                        <li className="mr-3">
-                            <a className={`inline-block py-2 px-4 no-underline ${isActive('/Proyecto') ? 'text-white' : 'text-gray-400'} hover:text-gray-200`} href="Proyecto">Proyectos</a>
-                        </li>
-                        <li className="mr-3">
-                            <a className={`inline-block py-2 px-4 no-underline ${isActive('/Evento') ? 'text-white' : 'text-gray-400'} hover:text-gray-200`} href="Evento">Eventos</a>
-                        </li>
+                        <Tab isActive={isActive} direction="Persona" text="Personas"/>
+                        <Tab isActive={isActive} direction="Municipio" text="Municipios"/>
+                        <Tab isActive={isActive} direction="Vivienda" text="Viviendas"/>
+                        <Tab isActive={isActive} direction="Departamento" text="Departamentos"/>
+                        <Tab isActive={isActive} direction="Proyecto" text="Proyectos"/>
+                        <Tab isActive={isActive} direction="Evento" text="Eventos"/>
                     </ul>
                 </div>
             </div>
