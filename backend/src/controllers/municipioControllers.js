@@ -84,10 +84,11 @@ const deleteMunicipio = async (req, res) => {
 //-------------------- MODIFICAR ATRIBUTOS DE MUNICIPIO --------------------
 const updateMunicipio = async (req, res) => {
   const { id } = req.params;
-  const { nombre, area, presupuesto, gobernador, departamento_nombre } =
+  const { id_municipio, nombre, area, presupuesto, gobernador, departamento_nombre } =
     req.body;
 
   let fieldsToUpdate = [];
+  if (id_municipio) fieldsToUpdate.push(`id_municipio = ${id_municipio}`);
   if (nombre) fieldsToUpdate.push(`nombre = '${nombre}'`);
   if (area) fieldsToUpdate.push(`area = ${area}`);
   if (presupuesto) fieldsToUpdate.push(`presupuesto = ${presupuesto}`);
