@@ -8,8 +8,9 @@ const Options = ({apiRoute, ...props }) => {
     
     const options = [];
     for (const [id, values] of Object.entries(data)) {
-        apiRoute === 'viviendas' ? options.push(values['direccion']) :
-        options.push(values['nombre'])
+        if(apiRoute === 'viviendas') options.push(values['direccion'])
+        else if (apiRoute === 'personas') options.push(values['id_persona'])
+        else options.push(values['nombre'])
     }
     console.log(options)
     return (

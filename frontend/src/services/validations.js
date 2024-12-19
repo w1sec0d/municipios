@@ -21,8 +21,7 @@ const validationRules = {
         nombre: yup.string().required('El nombre es obligatorio'),
         area: yup.number('El area debe ser un valor numérico').required('El area es obligatoria').positive('El area debe ser positiva'),
         presupuesto: yup.number('El presupuesto debe ser un valor numérico').required('El presupuesto es obligatorio').positive('El presupuesto debe ser positivo'),
-        PERSONA_id_persona: yup.number('La ID gobernante debe ser un número').integer('La ID departamento debe ser un número entero').nullable(),
-        DEPARTAMENTO_id_departamento: yup.number('La ID departamento debe ser un número entero').required('La ID departamento es obligatoria').positive('La ID departamento debe ser positiva').integer('La ID departamento debe ser un número entero')
+  
     }),
 
     //VALIDACIONES VIVIENDAS

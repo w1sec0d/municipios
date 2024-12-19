@@ -76,6 +76,7 @@ const Table = ({ apiRoute }) => {
   const [apiId, setApiId] = useState(null);
   const [title, setTitle] = useState(null);
   const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue2, setSelectedValue2] = useState('');
   // Id name of the table "id_persona", "id_vivienda" etc
   const idName = "id_" + apiRoute.slice(0, -1);
 
@@ -85,7 +86,8 @@ const Table = ({ apiRoute }) => {
 
     const transformedValues = transformEmptyStringsToNull({
       ...info.values,
-      municipio_nombre: selectedValue,
+      [apiRoute == 'municipios' ? 'gobernador': 'municipio_nombre']: selectedValue,
+      departamento_nombre: selectedValue2,
       [idName]: info.row.index + 1
     });
 
@@ -109,7 +111,9 @@ const Table = ({ apiRoute }) => {
   const handleCreate = async (info) => {
     console.log("creating:");
     console.log(info.values);
-    const transformedValues = transformEmptyStringsToNull({...info.values, municipio_nombre: selectedValue});
+    const transformedValues = transformEmptyStringsToNull({...info.values, 
+      [apiRoute == 'municipios' ? 'gobernador': 'municipio_nombre']: selectedValue,
+      departamento_nombre: selectedValue2,});
 
     try {
       const validation = await validationSchemas[apiRoute].validate(transformedValues, {
@@ -149,6 +153,10 @@ const Table = ({ apiRoute }) => {
     setSelectedValue(event.target.value);
   };
 
+  const handleDropdownChange2 = (event) => {
+    setSelectedValue2(event.target.value);
+  };
+
   const openDeleteConfirmModal = (row) => {
     setRowToDelete(row);
     setDeleteConfirmModalOpen(true);
@@ -179,8 +187,10 @@ const Table = ({ apiRoute }) => {
         row={row} 
         internalEditComponents={internalEditComponents} 
         apiRoute={apiRoute == 'proyectos' ||apiRoute =='eventos'? null: apiRoute} 
-        selectedValue={selectedValue} 
-        handleDropdownChange={handleDropdownChange}/>
+        selectedValue={selectedValue}
+        selectedValue2={selectedValue2} 
+        handleDropdownChange={handleDropdownChange}
+        handleDropdownChange2={handleDropdownChange2}/>
     ),
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <CEDialog 
@@ -190,7 +200,9 @@ const Table = ({ apiRoute }) => {
         internalEditComponents={internalEditComponents} 
         apiRoute={apiRoute} 
         selectedValue={selectedValue} 
-        handleDropdownChange={handleDropdownChange}/>
+        selectedValue2={selectedValue2}
+        handleDropdownChange={handleDropdownChange}
+        handleDropdownChange2={handleDropdownChange2}/>
     ),
     renderRowActions: ({ row, table }) => (
       <Box sx={{ display: "flex", gap: "1rem" }}>

@@ -21,6 +21,7 @@ const insertPersona = async (req, res) => {
     telefono,
     edad,
     sexo,
+    municipio_nombre,
     VIVIENDA_id_vivienda,
     PERSONA_id_persona,
   } = req.body;
@@ -31,18 +32,28 @@ const insertPersona = async (req, res) => {
   const sx = sexo ? sexo : null;
 
   //llamado para insertar una persona.
-  const query = `INSERT INTO PERSONA 
-    (id_persona, nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona) 
-    VALUES ('${id_persona}','${nombre}', '${telefono}', ${edad}, 
-    '${sx}', ${viviendaID}, ${personaID})`;
-
-  database.query(query, (err, rows) => {
+  const query = `SELECT id_vivienda FROM VIVIENDA WHERE direccion = ?`;
+  database.query(query, [municipio_nombre], (err, rows) => {
     if (err) {
       console.error(err);
       res.status(500).send("An error occurred while processing your request.");
       return;
     }
-    res.status(200).send("Person inserted successfully.");
+    const viviendaID = rows[0].id_vivienda;
+
+    const query = `INSERT INTO PERSONA 
+      (id_persona, nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona) 
+      VALUES ('${id_persona}','${nombre}', '${telefono}', ${edad}, 
+      '${sx}', ${viviendaID}, ${personaID})`;
+
+    database.query(query, (err, rows) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("An error occurred while processing your request.");
+        return;
+      }
+      res.status(200).send("Person inserted successfully.");
+    });
   });
 };
 //-----------------------------------------------------------------
@@ -71,6 +82,7 @@ const updatePersona = async (req, res) => {
     sexo,
     VIVIENDA_id_vivienda,
     PERSONA_id_persona,
+    municipio_nombre
   } = req.body;
 
   // Validar que al menos un campo sea enviado. y agregarlos a un array para luego actualizarlos.
@@ -81,6 +93,7 @@ const updatePersona = async (req, res) => {
   if (sexo !== undefined) {
     fieldsToUpdate.push(`sexo = ${sexo === null ? "NULL" : `'${sexo}'`}`);
   }
+  if (municipio_nombre) fieldsToUpdate.push(`VIVIENDA_id_vivienda = (SELECT id_vivienda FROM VIVIENDA WHERE direccion = '${municipio_nombre}')`);
   if (VIVIENDA_id_vivienda !== undefined) {
     fieldsToUpdate.push(
       `VIVIENDA_id_vivienda = ${

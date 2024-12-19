@@ -16,24 +16,28 @@ const getMunicipios = async (req, res) => {
 
 //------------------- INSERTAR MUNICIPIO --------------------------
 const insertMunicipio = async (req, res) => {
-    const { nombre, area, presupuesto, PERSONA_id_persona, DEPARTAMENTO_id_departamento} = req.body
+    const { id_municipio, nombre, area, presupuesto, gobernador, departamento_nombre} = req.body
 
     //Si las llaves foraneas no se envian, se asigna null.
-    const personaId= PERSONA_id_persona ? PERSONA_id_persona : null;
-
-    const query = 
-    `INSERT INTO MUNICIPIO (nombre, area, presupuesto, 
-    PERSONA_id_persona, DEPARTAMENTO_id_departamento)
-    VALUES ('${nombre}', ${area}, ${presupuesto}, 
-    ${personaId}, ${DEPARTAMENTO_id_departamento})`;    
-
-    database.query(query, (err, rows) => {
+    const personaId= gobernador ? gobernador : null;
+    console.log(departamento_nombre);
+    const query = `SELECT id_departamento FROM DEPARTAMENTO WHERE nombre = ?`;
+    database.query(query, [departamento_nombre], (err, rows) => {
         if (err) {
             console.error(err);
             res.status(500).send('An error occurred while processing your request.');
             return;
         }
-        res.send('Municipio inserted successfully.');
+        const iDdepartamento = rows[0].id_departamento;
+        
+        database.query(`INSERT INTO MUNICIPIO (nombre, area, presupuesto, PERSONA_id_persona, DEPARTAMENTO_id_departamento) VALUES ( ?, ?, ?, ?, ?)`, [nombre, area, presupuesto, gobernador, iDdepartamento], (err, result) => {
+            if(err){
+                console.error(err);
+                res.status(500).send('An error occurred while processing your request.');
+            }else{
+                res.send('successfully.');
+            }
+        });
     });
 }
 //-----------------------------------------------------------------
@@ -57,15 +61,16 @@ const deleteMunicipio = async (req, res) => {
 //-------------------- MODIFICAR ATRIBUTOS DE MUNICIPIO --------------------
 const updateMunicipio = async (req, res) => {
     const { id } = req.params;
-    const { nombre, area, presupuesto, PERSONA_id_persona} = req.body
+    const { nombre, area, presupuesto, gobernador, departamento_nombre} = req.body
 
     let fieldsToUpdate = [];
     if (nombre) fieldsToUpdate.push(`nombre = '${nombre}'`);
     if (area) fieldsToUpdate.push(`area = ${area}`);
     if (presupuesto) fieldsToUpdate.push(`presupuesto = ${presupuesto}`);
-    if (PERSONA_id_persona !== undefined){
-        fieldsToUpdate.push(`PERSONA_id_persona = ${PERSONA_id_persona === null ? 'NULL' : PERSONA_id_persona}`);
+    if (gobernador !== undefined){
+        fieldsToUpdate.push(`PERSONA_id_persona = ${gobernador === null ? 'NULL' : gobernador}`);
     }
+    if (departamento_nombre) fieldsToUpdate.push(`DEPARTAMENTO_id_departamento = (SELECT id_departamento FROM DEPARTAMENTO WHERE nombre = '${departamento_nombre}')`);
 
     const query = `UPDATE MUNICIPIO SET ${fieldsToUpdate.join(', ')} WHERE id_municipio = ${id}`;
     database.query(query, (err, rows) => {
