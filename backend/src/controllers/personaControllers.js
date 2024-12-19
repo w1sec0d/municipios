@@ -39,16 +39,9 @@ const insertPersona = async (req, res) => {
   const query = `SELECT id_vivienda FROM VIVIENDA WHERE direccion = ?`;
   database.query(query, [municipio_nombre], (err, rows) => {
     if (err) {
-      if (err.code === "ER_DUP_ENTRY") {
-        return res
-          .status(409)
-          .send("Duplicate entry: A person with this ID already exists.");
-      } else {
-        console.error(err);
-        return res
-          .status(500)
-          .send("An error occurred while processing your request.");
-      }
+      return res
+        .status(500)
+        .send("An error occurred while processing your request.");
     }
 
     let viviendaID;
@@ -68,11 +61,16 @@ const insertPersona = async (req, res) => {
 
     database.query(query, (err, rows) => {
       if (err) {
-        console.error(err);
-        res
-          .status(500)
-          .send("An error occurred while processing your request.");
-        return;
+        if (err.code === "ER_DUP_ENTRY") {
+          return res
+            .status(409)
+            .send("Duplicate entry: A person with this ID already exists.");
+        } else {
+          console.error(err);
+          return res
+            .status(500)
+            .send("An error occurred while processing your request.");
+        }
       }
       res.status(200).send("Person inserted successfully.");
     });
@@ -115,7 +113,7 @@ const updatePersona = async (req, res) => {
   if (telefono) fieldsToUpdate.push(`telefono = '${telefono}'`);
   if (edad) fieldsToUpdate.push(`edad = ${edad}`);
   if (sexo !== undefined) {
-    fieldsToUpdate.push(`sexo = ${sexo === null ? "NULL" : `'${sexo}'`}`);
+    fieldsToUpdate.push(`sexo = ${sexo === null ? "null" : `'${sexo}'`}`);
   }
   if (municipio_nombre)
     fieldsToUpdate.push(
@@ -124,14 +122,14 @@ const updatePersona = async (req, res) => {
   if (VIVIENDA_id_vivienda !== undefined) {
     fieldsToUpdate.push(
       `VIVIENDA_id_vivienda = ${
-        VIVIENDA_id_vivienda === null ? "NULL" : VIVIENDA_id_vivienda
+        VIVIENDA_id_vivienda === null ? "null" : VIVIENDA_id_vivienda
       }`
     );
   }
   if (PERSONA_id_persona !== undefined) {
     fieldsToUpdate.push(
       `PERSONA_id_persona = ${
-        PERSONA_id_persona === null ? "NULL" : PERSONA_id_persona
+        PERSONA_id_persona === null ? "null" : PERSONA_id_persona
       }`
     );
   }

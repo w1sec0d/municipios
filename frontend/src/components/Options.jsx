@@ -15,7 +15,7 @@ const Options = ({ apiRoute, ...props }) => {
   return (
     <select className="text-black p-4" {...props} defaultValue="">
       <option value="" disabled>
-        Select an option
+        Selecciona una opción
       </option>
       {options.map((option, index) => (
         <option key={index} value={option}>

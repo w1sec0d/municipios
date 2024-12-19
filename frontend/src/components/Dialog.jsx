@@ -53,7 +53,7 @@ const CEDialog = (props) => {
         {props.apiRoute == "departamentos" || props.apiRoute == null ? null : (
           <>
             <p className="text-left text-zinc-300 mt-2 ">
-              {apiCheck.charAt(0).toUpperCase() +
+              {apiCheck === "personas"? "Gobernante":apiCheck.charAt(0).toUpperCase() +
                 apiCheck.slice(1).split("s")[0]}
             </p>
             <Options

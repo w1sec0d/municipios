@@ -3,7 +3,7 @@ const database = require("../../database.js");
 // ---------------- OBTENER TODOS LOS MUNICIPIOS ----------------
 const getMunicipios = async (req, res) => {
   database.query(
-    "SELECT v.*, departamento.nombre AS departamento_nombre, persona.nombre AS gobernador FROM MUNICIPIO v JOIN DEPARTAMENTO departamento ON v.DEPARTAMENTO_id_departamento = departamento.id_departamento JOIN PERSONA persona ON v.PERSONA_id_persona = persona.id_persona",
+    "SELECT v.*, departamento.nombre AS departamento_nombre, persona.nombre AS gobernador FROM MUNICIPIO v LEFT JOIN DEPARTAMENTO departamento ON v.DEPARTAMENTO_id_departamento = departamento.id_departamento LEFT JOIN PERSONA persona ON v.PERSONA_id_persona = persona.id_persona",
     (err, rows) => {
       if (err) {
         console.error(err);
@@ -30,7 +30,7 @@ const insertMunicipio = async (req, res) => {
   } = req.body;
 
   //Si las llaves foraneas no se envian, se asigna null.
-  const personaId = gobernador ?? "NULL";
+  const personaId = gobernador ?? "null";
   console.log(departamento_nombre);
   const query = `SELECT id_departamento FROM DEPARTAMENTO WHERE nombre = ?`;
   database.query(query, [departamento_nombre], (err, rows) => {
@@ -39,11 +39,18 @@ const insertMunicipio = async (req, res) => {
       res.status(500).send("An error occurred while processing your request.");
       return;
     }
-    const iDdepartamento = rows[0].id_departamento ?? "NULL";
+
+    let departamentoId;
+
+    if (!departamento_nombre || !rows || !rows[0]) {
+      departamentoId = "null";
+    } else {
+      departamentoId = rows[0].id_vivienda ?? "null";
+    }
 
     database.query(
       `INSERT INTO MUNICIPIO (nombre, area, presupuesto, PERSONA_id_persona, DEPARTAMENTO_id_departamento) VALUES ( ?, ?, ?, ?, ?)`,
-      [nombre, area, presupuesto, personaId, iDdepartamento],
+      [nombre, area, presupuesto, personaId, departamentoId],
       (err, result) => {
         if (err) {
           if (err.code === "ER_DUP_ENTRY") {
@@ -84,8 +91,14 @@ const deleteMunicipio = async (req, res) => {
 //-------------------- MODIFICAR ATRIBUTOS DE MUNICIPIO --------------------
 const updateMunicipio = async (req, res) => {
   const { id } = req.params;
-  const { id_municipio, nombre, area, presupuesto, gobernador, departamento_nombre } =
-    req.body;
+  const {
+    id_municipio,
+    nombre,
+    area,
+    presupuesto,
+    gobernador,
+    departamento_nombre,
+  } = req.body;
 
   let fieldsToUpdate = [];
   if (id_municipio) fieldsToUpdate.push(`id_municipio = ${id_municipio}`);
@@ -94,7 +107,7 @@ const updateMunicipio = async (req, res) => {
   if (presupuesto) fieldsToUpdate.push(`presupuesto = ${presupuesto}`);
   if (gobernador !== undefined) {
     fieldsToUpdate.push(
-      `PERSONA_id_persona = ${gobernador === null ? "NULL" : gobernador}`
+      `PERSONA_id_persona = ${gobernador === null ? "null" : gobernador}`
     );
   }
   if (departamento_nombre)
