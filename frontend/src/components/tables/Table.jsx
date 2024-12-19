@@ -81,15 +81,12 @@ const Table = ({ apiRoute }) => {
   const idName = "id_" + apiRoute.slice(0, -1);
 
   const handleEdit = async (info) => {
-    console.log("TRANSFORMED");
 
     const transformedValues = transformEmptyStringsToNull({
       ...info.values,
       [apiRoute == 'municipios' ? 'gobernador': 'municipio_nombre']: selectedValue,
       departamento_nombre: selectedValue2,
-    });    
-    console.log("TRANSFORMED");
-      
+    });          
 
     console.log({transformedValues});
     
@@ -98,11 +95,14 @@ const Table = ({ apiRoute }) => {
         abortEarly: false,
       });
       const id = info.row.original[idName] ?? transformedValues[idName]
+      console.log("iNFO");
       console.log(info.row);
 
       
+      console.log();
       const res = await updateData(apiRoute, id, transformedValues);
       
+
       // Only if the update was successful
       if(res.status === 200){
         showNotification("success", "Editado exitosamente");
@@ -140,6 +140,8 @@ const Table = ({ apiRoute }) => {
         info.table.setCreatingRow(null); // Cerrar el modal de creación
       }else if(res.status === 409){
         showNotification("error", "ID repetido! Intentalo de nuevo");
+      }else if(res.status === 400){
+        showNotification("error", "Revisa que los datos esten completos");
       }
     } catch (validationErrors) {
       console.error("Validation errors:", validationErrors.inner);
@@ -151,7 +153,7 @@ const Table = ({ apiRoute }) => {
 
   const handleDelete = async(row) => {
     console.log("deleting id:");
-    console.log(row.original.id_persona);
+    console.log(row.original[idName]);
     setDeleteConfirmModalOpen(false);
     const res = await deleteData(apiRoute, row.original[idName]);
     console.log({res});

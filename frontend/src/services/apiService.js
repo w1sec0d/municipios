@@ -24,6 +24,9 @@ export const createData = async (endpoint, data) => {
 
 export const updateData = async (endpoint, id, data) => {
   try {
+    console.log(`${API_URL}/${endpoint}/${id}`);
+    console.log({ data });
+
     const response = await axios.put(`${API_URL}/${endpoint}/${id}`, data);
     return response;
   } catch (error) {

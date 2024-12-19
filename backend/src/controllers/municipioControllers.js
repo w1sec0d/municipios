@@ -31,7 +31,6 @@ const insertMunicipio = async (req, res) => {
 
   //Si las llaves foraneas no se envian, se asigna null.
   const personaId = gobernador ?? "null";
-  console.log(departamento_nombre);
   const query = `SELECT id_departamento FROM DEPARTAMENTO WHERE nombre = ?`;
   database.query(query, [departamento_nombre], (err, rows) => {
     if (err) {
@@ -45,7 +44,7 @@ const insertMunicipio = async (req, res) => {
     if (!departamento_nombre || !rows || !rows[0]) {
       departamentoId = "null";
     } else {
-      departamentoId = rows[0].id_vivienda ?? "null";
+      departamentoId = rows[0].id_departamento ?? "null";
     }
 
     database.query(
@@ -57,6 +56,8 @@ const insertMunicipio = async (req, res) => {
             return res
               .status(409)
               .send("Duplicate entry: An Entity with this ID already exists.");
+          } else if (err.code === "ER_TRUNCATED_WRONG_VALUE_FOR_FIELD") {
+            return res.status(400).send("Faltan datos de llaves foraneas");
           } else {
             console.error(err);
             return res

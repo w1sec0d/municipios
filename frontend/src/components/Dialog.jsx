@@ -44,7 +44,8 @@ const CEDialog = (props) => {
             component.props.cell.column.id === "municipio_nombre" ||
             component.props.cell.column.id === "departamento_nombre" ||
             component.props.cell.column.id === "gobernador" ||
-            component.props.cell.column.id === "direccion_vivienda"
+            component.props.cell.column.id === "direccion_vivienda" || 
+            component.props.cell.column.id === "MUNICIPIO_id_municipio"  
           ) {
             return null;
           }
