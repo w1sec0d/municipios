@@ -95,12 +95,15 @@ const Table = ({ apiRoute }) => {
       await validationSchemas[apiRoute].validate(transformedValues, {
         abortEarly: false,
       });
-      const res = await updateData(apiRoute, transformedValues[idName], transformedValues);
+      const id = info.row.original[idName] ?? transformedValues[idName]
+      const res = await updateData(apiRoute, id, transformedValues);
       // Only if the update was successful
       if(res.status === 200){
         showNotification("success", "Editado exitosamente");
         info.table.setEditingRow(null); // Cerrar el modal de edición
         setReload(!reload);
+      }else if(res.status === 409){
+        showNotification("error", "ID repetido! Intentalo de nuevo");
       }
     } catch (validationErrors) {
       console.error("Validation errors:", validationErrors.inner);
@@ -123,10 +126,14 @@ const Table = ({ apiRoute }) => {
       
       const res = await createData(apiRoute, transformedValues);
 
+      console.log({res});
+      
       if(res.status === 200){
         setReload(!reload);
         showNotification("success", "Creado exitosamente");
         info.table.setCreatingRow(null); // Cerrar el modal de creación
+      }else if(res.status === 409){
+        showNotification("error", "ID repetido! Intentalo de nuevo");
       }
     } catch (validationErrors) {
       console.error("Validation errors:", validationErrors.inner);
@@ -316,8 +323,8 @@ const Table = ({ apiRoute }) => {
   })
 
   return (
-    <div style={{ padding: "20px" }}>
-      <label className="text-zinc-100">Lista de {apiRoute}</label>
+    <div className="p-[20px]">
+      <h1 className="text-zinc-100 text-2xl font-bold tracking-wider my-7">Lista de {apiRoute}</h1>
       <MaterialReactTable table={table}/>
       <ConfirmDialog isOpen={deleteConfirmModalOpen} setIsOpen={setDeleteConfirmModalOpen} onConfirm={()=>handleDelete(rowToDelete)}/>
       <ViewDialog isOpen={ViewModalOpen} setIsOpen={setViewModalOpen} onConfirm={()=>handleDelete(rowToDelete)} apiRoute={view} id={apiId} title={title}/>

@@ -35,10 +35,18 @@ const insertPersona = async (req, res) => {
   const query = `SELECT id_vivienda FROM VIVIENDA WHERE direccion = ?`;
   database.query(query, [municipio_nombre], (err, rows) => {
     if (err) {
-      console.error(err);
-      res.status(500).send("An error occurred while processing your request.");
-      return;
+      if (err.code === "ER_DUP_ENTRY") {
+        return res
+          .status(409)
+          .send("Duplicate entry: A person with this ID already exists.");
+      } else {
+        console.error(err);
+        return res
+          .status(500)
+          .send("An error occurred while processing your request.");
+      }
     }
+
     const viviendaID = rows[0].id_vivienda;
 
     const query = `INSERT INTO PERSONA 
@@ -54,6 +62,7 @@ const insertPersona = async (req, res) => {
       }
       res.status(200).send("Person inserted successfully.");
     });
+
   });
 };
 //-----------------------------------------------------------------
@@ -113,18 +122,25 @@ const updatePersona = async (req, res) => {
     res.status(400).send("No fields to update.");
     return;
   }
-  
+
   const query = `UPDATE PERSONA SET ${fieldsToUpdate.join(
     ", "
   )} WHERE id_persona = ${id}`;
 
   database.query(query, (err, rows) => {
     if (err) {
-      console.error(err);
-      res.status(500).send("An error occurred while processing your request.");
-      return;
+      if (err.code === "ER_DUP_ENTRY") {
+        return res
+          .status(409)
+          .send("Duplicate entry: An Entity with this ID already exists.");
+      } else {
+        console.error(err);
+        return res
+          .status(500)
+          .send("An error occurred while processing your request.");
+      }
     }
-    res.send("Person updated successfully.");
+    return res.status(200).send("Entity updated successfully.");
   });
 };
 //-----------------------------------------------------------------
@@ -132,35 +148,47 @@ const updatePersona = async (req, res) => {
 //VER PERSONAS QUE DEPENDEN DE LA PERSONA
 
 const getDependientes = async (req, res) => {
-    const { id } = req.params;
-    database.query('SELECT * FROM vistaPersonaCabezaFamilia WHERE id_cabeza_familia = ?', [id], (err, rows) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send('An error occurred while processing your request.');
-            return;
-        }
-        res.send(rows);
-    });
-}
+  const { id } = req.params;
+  database.query(
+    "SELECT * FROM vistaPersonaCabezaFamilia WHERE id_cabeza_familia = ?",
+    [id],
+    (err, rows) => {
+      if (err) {
+        console.error(err);
+        res
+          .status(500)
+          .send("An error occurred while processing your request.");
+        return;
+      }
+      res.send(rows);
+    }
+  );
+};
 
 const getPropiedades = async (req, res) => {
-    const { id } = req.params;
-    
-    database.query('SELECT * FROM vistaPropiedad WHERE id_persona = ?', [id], (err, rows) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send('An error occurred while processing your request.');
-            return;
-        }
-        res.send(rows);
-    });
-}
+  const { id } = req.params;
+
+  database.query(
+    "SELECT * FROM vistaPropiedad WHERE id_persona = ?",
+    [id],
+    (err, rows) => {
+      if (err) {
+        console.error(err);
+        res
+          .status(500)
+          .send("An error occurred while processing your request.");
+        return;
+      }
+      res.send(rows);
+    }
+  );
+};
 
 module.exports = {
-    getPersona,
-    insertPersona,
-    deletePersona,
-    updatePersona,
-    getDependientes,
-    getPropiedades
+  getPersona,
+  insertPersona,
+  deletePersona,
+  updatePersona,
+  getDependientes,
+  getPropiedades,
 };
