@@ -44,12 +44,26 @@ const viewHouses = async(req,res) => {
 
 const updateHouse = async(req, res) => {
 
-    const {id_vivienda, id_municipio, direccion, capacidad, niveles} = req.body;
+    const {id_vivienda, municipio_nombre, direccion, capacidad, niveles} = req.body;
 
     let fieldsToUpdate = [];
     if(direccion) fieldsToUpdate.push(`direccion = '${direccion}'`);
     if(capacidad) fieldsToUpdate.push(`capacidad = '${capacidad}'`);
     if(niveles) fieldsToUpdate.push(`niveles = '${niveles}'`);
+    if(municipio_nombre) {
+        const checkMunicipioQuery = 'SELECT id_municipio FROM MUNICIPIO WHERE nombre = ?';
+        database.query(checkMunicipioQuery, [municipio_nombre], (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('An error occurred while processing your request.');
+            }
+            if (results.length === 0) {
+                return res.status(400).send('The specified municipality does not exist.');
+            }
+            const id_municipio = results[0].id_municipio;
+            fieldsToUpdate.push(`MUNICIPIO_id_municipio = '${id_municipio}'`);
+        })
+    }
 
     if(fieldsToUpdate.length === 0){
         res.status(400).send('No fields to update.');
@@ -65,8 +79,6 @@ const updateHouse = async(req, res) => {
             res.send('house updated successfully.');
         }
     });
-
-
 
 }
 

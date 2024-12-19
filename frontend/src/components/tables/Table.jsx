@@ -83,7 +83,11 @@ const Table = ({ apiRoute }) => {
     console.log("editing:");
     console.log(info);
 
-    const transformedValues = transformEmptyStringsToNull(info.values);
+    const transformedValues = transformEmptyStringsToNull({
+      ...info.values,
+      municipio_nombre: selectedValue,
+      [idName]: info.row.index + 1
+    });
 
     try {
       await validationSchemas[apiRoute].validate(transformedValues, {
@@ -159,9 +163,6 @@ const Table = ({ apiRoute }) => {
     setViewModalOpen(true);
   }
 
-
-  
-
   const table = useMaterialReactTable({
     data: data,
     columns: tableColumns[apiRoute],
@@ -173,15 +174,17 @@ const Table = ({ apiRoute }) => {
     getRowId: (row) => row.id,
     renderEditRowDialogContent: ({ table, row, internalEditComponents }) => (
       <CEDialog 
+        title="Editar elemento"
         table={table} 
         row={row} 
         internalEditComponents={internalEditComponents} 
-        apiRoute={apiRoute} 
+        apiRoute={apiRoute == 'proyectos' ||apiRoute =='eventos'? null: apiRoute} 
         selectedValue={selectedValue} 
         handleDropdownChange={handleDropdownChange}/>
     ),
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <CEDialog 
+        title="Crear nuevo"
         table={table} 
         row={row} 
         internalEditComponents={internalEditComponents} 

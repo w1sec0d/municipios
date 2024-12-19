@@ -20,6 +20,10 @@ const columns = {
       accessorKey: "sexo",
       header: "Sexo",
     },
+    {
+      accessorKey: "direccion_vivienda",
+      header: "Dirección Vivienda",
+    }
     // {
     //   accessorKey: "VIVIENDA_id_vivienda",
     //   header: "ID Vivienda",
@@ -48,12 +52,12 @@ const columns = {
       header: "Presupuesto",
     },
     {
-      accessorKey: "PERSONA_id_persona",
-      header: "ID Gobernador",
+      accessorKey: "gobernador",
+      header: "Gobernador",
     },
     {
-      accessorKey: "DEPARTAMENTO_id_departamento",
-      header: "ID Departamento",
+      accessorKey: "departamento_nombre",
+      header: "Departamento",
     },
   ],
   proyectos: [
@@ -84,8 +88,8 @@ const columns = {
       header: "Estado",
     },
     {
-      accessorKey: "MUNICIPIO_id_municipio",
-      header: "ID Municipio",
+      accessorKey: "municipio_nombre",
+      header: "Municipio",
     },
   ],
   viviendas: [
@@ -108,8 +112,8 @@ const columns = {
   ],
   eventos: [
     {
-      accessorKey: "MUNICIPIO_id_municipio",
-      header: "ID Municipio",
+      accessorKey: "municipio_nombre",
+      header: "Municipio",
     },
     {
       accessorKey: "nombre",

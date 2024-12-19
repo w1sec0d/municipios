@@ -2,7 +2,7 @@ const database = require("../../database.js");
 
 // ----------------TRAER TODAS LAS PERSONAS CON ATRIBUTOS----------
 const getPersona = async (req, res) => {
-  database.query("SELECT * FROM PERSONA", (err, rows) => {
+  database.query("SELECT v.*, vivienda.direccion AS direccion_vivienda FROM PERSONA v JOIN VIVIENDA vivienda ON v.VIVIENDA_id_vivienda = vivienda.id_vivienda", (err, rows) => {
     if (err) {
       console.error(err);
       res.status(500).send("An error occurred while processing your request.");

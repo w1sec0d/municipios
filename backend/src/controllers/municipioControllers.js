@@ -3,7 +3,7 @@ const database = require("../../database.js");
 
 // ---------------- OBTENER TODOS LOS MUNICIPIOS ----------------
 const getMunicipios = async (req, res) => {
-    database.query('SELECT * FROM MUNICIPIO', (err, rows) => {
+    database.query('SELECT v.*, departamento.nombre AS departamento_nombre, persona.nombre AS gobernador FROM MUNICIPIO v JOIN DEPARTAMENTO departamento ON v.DEPARTAMENTO_id_departamento = departamento.id_departamento JOIN PERSONA persona ON v.PERSONA_id_persona = persona.id_persona', (err, rows) => {
         if (err) {
             console.error(err);
             res.status(500).send('An error occurred while processing your request.');

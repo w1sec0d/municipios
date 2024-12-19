@@ -8,6 +8,7 @@ const Options = ({apiRoute, ...props }) => {
     
     const options = [];
     for (const [id, values] of Object.entries(data)) {
+        apiRoute === 'viviendas' ? options.push(values['direccion']) :
         options.push(values['nombre'])
     }
     console.log(options)

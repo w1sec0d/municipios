@@ -11,30 +11,41 @@ const formatDate = (date) => {
 
 const registerProject = async(req, res) => {
 
-    const {MUNICIPIO_id_municipio, nombre, presupuesto, descripcion, fecha_inicio, fecha_fin, estado} = req.body;
+    const {municipio_nombre, nombre, presupuesto, descripcion, fecha_inicio, fecha_fin, estado} = req.body;
 
-    if (!MUNICIPIO_id_municipio || !nombre || !presupuesto || !descripcion || !fecha_inicio || !fecha_fin || !estado) { 
+    if (!municipio_nombre || !nombre || !presupuesto || !descripcion || !fecha_inicio || !fecha_fin || !estado) { 
         return res.status(400).send('An error occurred while processing your request.'); }
 
     if (descripcion.length > 255) { 
         return res.status(400).send('La descripción no puede exceder los 255 caracteres.'); }
 
-    database.query('INSERT INTO `PROYECTO`(`MUNICIPIO_id_municipio`,`nombre`,`presupuesto`,`descripcion`, `fecha_inicio`,  `fecha_fin`, `estado`) VALUES (?,?,?,?,?,?,?)',
-        [MUNICIPIO_id_municipio, nombre, presupuesto, descripcion, fecha_inicio, fecha_fin, estado], (err, result) => {
-            if(err){
-                console.error(err);
-                res.status(500).send('An error occurred while processing your request.');
-            }else{
-                res.send('successfully.');
-            }
+    const checkMunicipioQuery = 'SELECT id_municipio FROM MUNICIPIO WHERE nombre = ?';
+    database.query(checkMunicipioQuery, [municipio_nombre], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('An error occurred while processing your request.');
         }
-    )
+        if (results.length === 0) {
+            return res.status(400).send('The specified municipality does not exist.');
+        }
 
+        const id_municipio = results[0].id_municipio;
+
+        database.query('INSERT INTO `PROYECTO`(`MUNICIPIO_id_municipio`,`nombre`,`presupuesto`,`descripcion`, `fecha_inicio`,  `fecha_fin`, `estado`) VALUES (?,?,?,?,?,?,?)',
+            [id_municipio, nombre, presupuesto, descripcion, fecha_inicio, fecha_fin, estado], (err, result) => {
+                if(err){
+                    console.error(err);
+                    res.status(500).send('An error occurred while processing your request.');
+                }else{
+                    res.send('successfully.');
+                }
+        });
+    });
 }
 
 const viewProject = async(req, res) => {
 
-    database.query('SELECT * FROM PROYECTO',
+    database.query('SELECT v.*, municipio.nombre AS municipio_nombre FROM PROYECTO v JOIN MUNICIPIO municipio ON v.MUNICIPIO_id_municipio = municipio.id_municipio',
         (err,result) => {
             if(err){
                 console.error(err);
