@@ -11,54 +11,66 @@ const formatDate = (date) => {
 
 //------------------- OBTENER TODOS LOS EVENTOS --------------------------
 const getEvento = async (req, res) => {
-  database.query("SELECT * FROM EVENTO", (err, rows) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("An error occurred while processing your request.");
-      return;
-    } else {
-      // Transformar las fechas al formato YYYY-MM-DD
-      const formattedResult = rows.map((event) => ({
-        ...event,
-        fecha_inicio: formatDate(event.fecha_inicio),
-        fecha_fin: formatDate(event.fecha_fin),
-      }));
-      res.send(formattedResult);
-    }
-  });
+
+    database.query('SELECT v.*, municipio.nombre AS municipio_nombre FROM EVENTO v JOIN MUNICIPIO municipio ON v.MUNICIPIO_id_municipio = municipio.id_municipio', (err, rows) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while processing your request.');
+            return;
+        }else{
+            // Transformar las fechas al formato YYYY-MM-DD
+            const formattedResult = rows.map((event) => ({
+                ...event,
+                fecha_inicio: formatDate(event.fecha_inicio),
+                fecha_fin: formatDate(event.fecha_fin),
+            }));
+            res.send(formattedResult);
+        }
+    });
 };
 //-----------------------------------------------------------------
 
 // ------------------- INSERTAR UN EVENTO -------------------------
 const insertEvento = async (req, res) => {
-  const {
-    nombre,
-    presupuesto,
-    descripcion,
-    fecha_inicio,
-    fecha_fin,
-    MUNICIPIO_id_municipio,
-  } = req.body;
 
-  const query = `INSERT INTO EVENTO (nombre, presupuesto, descripcion, fecha_inicio, fecha_fin, MUNICIPIO_id_municipio)
-        VALUES ('${nombre}', ${presupuesto}, '${descripcion}',
-         '${fecha_inicio}', '${fecha_fin}', ${MUNICIPIO_id_municipio})`;
+    const {nombre, presupuesto, descripcion, fecha_inicio, fecha_fin, municipio_nombre} = req.body
 
-  database.query(query, (err, rows) => {
-    if (err) {
-      if (err.code === "ER_DUP_ENTRY") {
-        return res
-          .status(409)
-          .send("Duplicate entry: An Entity with this ID already exists.");
-      } else {
-        console.error(err);
-        return res
-          .status(500)
-          .send("An error occurred while processing your request.");
-      }
-    }
-    return res.status(200).send("Entity created successfully.");
-  });
+    if (!municipio_nombre || !nombre || !presupuesto || !descripcion || !fecha_inicio || !fecha_fin) { 
+        return res.status(400).send('An error occurred while processing your request.'); }
+
+    if (descripcion.length > 255) { 
+        return res.status(400).send('La descripción no puede exceder los 255 caracteres.'); }
+
+    const checkMunicipioQuery = 'SELECT id_municipio FROM MUNICIPIO WHERE nombre = ?';
+    database.query(checkMunicipioQuery, [municipio_nombre], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('An error occurred while processing your request.');
+        }
+        if (results.length === 0) {
+            return res.status(400).send('The specified municipality does not exist.');
+        }
+
+        const id_municipio = results[0].id_municipio;
+
+        database.query('INSERT INTO EVENTO (MUNICIPIO_id_municipio, nombre, presupuesto, descripcion, fecha_inicio, fecha_fin) VALUES (?,?,?,?,?,?)',
+            [id_municipio, nombre, presupuesto, descripcion, fecha_inicio, fecha_fin], (err, result) => {
+                if (err) {
+                  if (err.code === "ER_DUP_ENTRY") {
+                    return res
+                      .status(409)
+                      .send("Duplicate entry: An Entity with this ID already exists.");
+                  } else {
+                    console.error(err);
+                    return res
+                      .status(500)
+                      .send("An error occurred while processing your request.");
+                  }
+                }
+              return res.status(200).send("Entity created successfully.");
+           });
+        });
+
 };
 
 //-----------------------------------------------------------------
@@ -82,6 +94,7 @@ const deleteEvento = async (req, res) => {
 
 // ------------------- MODIFICAR ATRIBUTOS DE EVENTO --------------------
 const updateEvento = async (req, res) => {
+  
   const { id } = req.params;
   const {
     id_evento,

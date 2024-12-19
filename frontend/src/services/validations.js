@@ -21,8 +21,7 @@ const validationRules = {
         nombre: yup.string().required('El nombre es obligatorio'),
         area: yup.number('El area debe ser un valor numérico').required('El area es obligatoria').positive('El area debe ser positiva'),
         presupuesto: yup.number('El presupuesto debe ser un valor numérico').required('El presupuesto es obligatorio').positive('El presupuesto debe ser positivo'),
-        PERSONA_id_persona: yup.number('La ID gobernante debe ser un número').integer('La ID departamento debe ser un número entero').nullable(),
-        DEPARTAMENTO_id_departamento: yup.number('La ID departamento debe ser un número entero').required('La ID departamento es obligatoria').positive('La ID departamento debe ser positiva').integer('La ID departamento debe ser un número entero')
+  
     }),
 
     //VALIDACIONES VIVIENDAS
@@ -30,7 +29,8 @@ const validationRules = {
         direccion: yup.string().required('La dirección es obligatoria'),
         capacidad: yup.number().required('La capacidad es obligatoria').positive('La capacidad debe ser positiva').integer('La capacidad debe ser un número entero'),
         niveles: yup.number().required('Los niveles son obligatorios').positive('Los niveles deben ser positivos').integer('Los niveles deben ser un número entero'),
-        MUNICIPIO_id_municipio: yup.number().required('La ID municipio es obligatoria').positive('La ID municipio debe ser positiva').integer('La ID municipio debe ser un número entero')
+        municipio_nombre: yup.string().required('El municipio es obligatorio')
+        //municipio: yup.number().required('La ID municipio es obligatoria').positive('La ID municipio debe ser positiva').integer('La ID municipio debe ser un número entero')
     }),
 
     //VALIDACIONES DEPARTAMENTOS
@@ -42,7 +42,7 @@ const validationRules = {
 
     //VALIDACIONES PROYECTOS
     proyectos: yup.object().shape({
-        MUNICIPIO_id_municipio: yup.number().required('La ID municipio es obligatoria').positive('La ID municipio debe ser positiva').integer('La ID municipio debe ser un número entero'),
+
         nombre: yup.string().required('El nombre es obligatorio'),
         presupuesto: yup.number().required('El presupuesto es obligatorio').positive('El presupuesto debe ser positivo'),
         descripcion: yup.string().max(255, 'La descripción no puede exceder los 255 caracteres'),
@@ -53,7 +53,6 @@ const validationRules = {
 
     //VALIDACIONES EVENTOS
     eventos: yup.object().shape({
-        MUNICIPIO_id_municipio: yup.number().required('La ID municipio es obligatoria').positive('La ID municipio debe ser positiva').integer('La ID municipio debe ser un número entero'),
         nombre: yup.string().required('El nombre es obligatorio'),
         presupuesto: yup.number().required('El presupuesto es obligatorio').positive('El presupuesto debe ser positivo'),
         descripcion: yup.string().required('La descripción es obligatoria').max(255, 'La descripción no puede exceder los 255 caracteres'),
