@@ -29,7 +29,6 @@ const validationRules = {
         direccion: yup.string().required('La dirección es obligatoria'),
         capacidad: yup.number().required('La capacidad es obligatoria').positive('La capacidad debe ser positiva').integer('La capacidad debe ser un número entero'),
         niveles: yup.number().required('Los niveles son obligatorios').positive('Los niveles deben ser positivos').integer('Los niveles deben ser un número entero'),
-        municipio_nombre: yup.string().required('El municipio es obligatorio')
         //municipio: yup.number().required('La ID municipio es obligatoria').positive('La ID municipio debe ser positiva').integer('La ID municipio debe ser un número entero')
     }),
 
