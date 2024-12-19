@@ -78,55 +78,8 @@ const updateHouse = async(req, res) => {
         return;
 
     }
-  );
 };
 
-const viewHouses = async (req, res) => {
-  database.query("SELECT * FROM VIVIENDA", (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("An error occurred while processing your request.");
-    } else {
-      res.send(result);
-    }
-  });
-};
-
-const updateHouse = async (req, res) => {
-  const { id_vivienda, id_municipio, direccion, capacidad, niveles } = req.body;
-
-  let fieldsToUpdate = [];
-  if (id_vivienda) fieldsToUpdate.push(`id_vivienda = '${id_vivienda}'`);
-  if (direccion) fieldsToUpdate.push(`direccion = '${direccion}'`);
-  if (capacidad) fieldsToUpdate.push(`capacidad = '${capacidad}'`);
-  if (niveles) fieldsToUpdate.push(`niveles = '${niveles}'`);
-
-  if (fieldsToUpdate.length === 0) {
-    res.status(400).send("No fields to update.");
-    return;
-  }
-
-  database.query(
-    `UPDATE VIVIENDA SET ${fieldsToUpdate.join(
-      ", "
-    )} WHERE id_vivienda = ${id_vivienda}`,
-    (err, result) => {
-      if (err) {
-        if (err.code === "ER_DUP_ENTRY") {
-          return res
-            .status(409)
-            .send("Duplicate entry: An Entity with this ID already exists.");
-        } else {
-          console.error(err);
-          return res
-            .status(500)
-            .send("An error occurred while processing your request.");
-        }
-      }
-      return res.status(200).send("Entity updated successfully.");
-    }
-  );
-};
 
 const deleteHouse = async (req, res) => {
   const { id } = req.params;
