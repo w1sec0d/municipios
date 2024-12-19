@@ -14,7 +14,7 @@ const Profile = (props) => {
 
 const Footer = () => {
     return(
-        <footer className="bottom-0 w-full bg-zinc-500 text-sky-400">
+        <footer className="w-full bg-zinc-500 text-sky-400 mt-auto py-4">
             <div className="container mx-auto p-4">
                 <div className="flex flex-wrap justify-start">
                     <div className="w-full md:w-1/6 text-left text-2xl place-content-center font-RalewayBold">

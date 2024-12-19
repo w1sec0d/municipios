@@ -296,8 +296,8 @@ const Table = ({ apiRoute }) => {
   })
 
   return (
-    <div style={{ padding: "20px" }}>
-      <label className="text-zinc-100">Lista de {apiRoute}</label>
+    <div className="p-[20px]">
+      <h1 className="text-zinc-100 text-2xl font-bold tracking-wider my-7">Lista de {apiRoute}</h1>
       <MaterialReactTable table={table}/>
       <ConfirmDialog isOpen={deleteConfirmModalOpen} setIsOpen={setDeleteConfirmModalOpen} onConfirm={()=>handleDelete(rowToDelete)}/>
       <ViewDialog isOpen={ViewModalOpen} setIsOpen={setViewModalOpen} onConfirm={()=>handleDelete(rowToDelete)} apiRoute={view} id={apiId} title={title}/>
