@@ -2,11 +2,11 @@ const database = require("../../database.js");
 
 //Registrar un departamento
 const registerDepartment = async (req, res) => {
-  const { nombre, area, poblacion } = req.body;
+  const { id_departamento, nombre, area, poblacion } = req.body;
 
   database.query(
-    "INSERT INTO `DEPARTAMENTO`(`nombre`,`area`,`poblacion`) VALUES (?,?,?)",
-    [nombre, area, poblacion],
+    "INSERT INTO `DEPARTAMENTO`(`id_departamento`,`nombre`,`area`,`poblacion`) VALUES (?,?,?,?)",
+    [id_departamento, nombre, area, poblacion],
     (err, result) => {
       if (err) {
         if (err.code === "ER_DUP_ENTRY") {
