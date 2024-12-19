@@ -46,11 +46,18 @@ const insertEvento = async (req, res) => {
 
   database.query(query, (err, rows) => {
     if (err) {
-      console.error(err);
-      res.status(500).send("An error occurred while processing your request.");
-      return;
+      if (err.code === "ER_DUP_ENTRY") {
+        return res
+          .status(409)
+          .send("Duplicate entry: An Entity with this ID already exists.");
+      } else {
+        console.error(err);
+        return res
+          .status(500)
+          .send("An error occurred while processing your request.");
+      }
     }
-    res.send("Evento inserted successfully.");
+    return res.status(200).send("Entity created successfully.");
   });
 };
 
@@ -102,11 +109,18 @@ const updateEvento = async (req, res) => {
   )} WHERE id_evento = ${id}`;
   database.query(query, (err, rows) => {
     if (err) {
-      console.error(err);
-      res.status(500).send("An error occurred while processing your request.");
-      return;
+      if (err.code === "ER_DUP_ENTRY") {
+        return res
+          .status(409)
+          .send("Duplicate entry: An Entity with this ID already exists.");
+      } else {
+        console.error(err);
+        return res
+          .status(500)
+          .send("An error occurred while processing your request.");
+      }
     }
-    res.send("Evento updated successfully.");
+    return res.status(200).send("Entity updated successfully.");
   });
 };
 

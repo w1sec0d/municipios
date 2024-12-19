@@ -93,6 +93,8 @@ const Table = ({ apiRoute }) => {
         showNotification("success", "Editado exitosamente");
         info.table.setEditingRow(null); // Cerrar el modal de edición
         setReload(!reload);
+      }else if(res.status === 409){
+        showNotification("error", "ID repetido! Intentalo de nuevo");
       }
     } catch (validationErrors) {
       console.error("Validation errors:", validationErrors.inner);
@@ -113,10 +115,14 @@ const Table = ({ apiRoute }) => {
       
       const res = await createData(apiRoute, transformedValues);
 
+      console.log({res});
+      
       if(res.status === 200){
         setReload(!reload);
         showNotification("success", "Creado exitosamente");
         info.table.setCreatingRow(null); // Cerrar el modal de creación
+      }else if(res.status === 409){
+        showNotification("error", "ID repetido! Intentalo de nuevo");
       }
     } catch (validationErrors) {
       console.error("Validation errors:", validationErrors.inner);

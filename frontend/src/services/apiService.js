@@ -8,7 +8,7 @@ export const getData = async (endpoint) => {
     return response;
   } catch (error) {
     console.error("Error fetching data:", error);
-    throw error;
+    return error;
   }
 };
 
@@ -18,7 +18,7 @@ export const createData = async (endpoint, data) => {
     return response;
   } catch (error) {
     console.error("Error creating data:", error);
-    throw error;
+    return error;
   }
 };
 
@@ -28,7 +28,7 @@ export const updateData = async (endpoint, id, data) => {
     return response;
   } catch (error) {
     console.error("Error updating data:", error);
-    throw error;
+    return error;
   }
 };
 
@@ -38,6 +38,6 @@ export const deleteData = async (endpoint, id) => {
     return response;
   } catch (error) {
     console.error("Error deleting data:", error);
-    throw error;
+    return error;
   }
 };

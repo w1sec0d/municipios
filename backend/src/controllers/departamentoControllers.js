@@ -9,13 +9,18 @@ const registerDepartment = async (req, res) => {
     [nombre, area, poblacion],
     (err, result) => {
       if (err) {
-        console.error(err);
-        res
-          .status(500)
-          .send("An error occurred while processing your request.");
-      } else {
-        res.send("successfully.");
+        if (err.code === "ER_DUP_ENTRY") {
+          return res
+            .status(409)
+            .send("Duplicate entry: An Entity with this ID already exists.");
+        } else {
+          console.error(err);
+          return res
+            .status(500)
+            .send("An error occurred while processing your request.");
+        }
       }
+      return res.status(200).send("Entity created successfully.");
     }
   );
 };
@@ -55,13 +60,18 @@ const updateDepartment = async (req, res) => {
     )} WHERE id_departamento = ${id}`,
     (err, result) => {
       if (err) {
-        console.error(err);
-        res
-          .status(500)
-          .send("An error occurred while processing your request.");
-      } else {
-        res.send("departament updated successfully.");
+        if (err.code === "ER_DUP_ENTRY") {
+          return res
+            .status(409)
+            .send("Duplicate entry: An Entity with this ID already exists.");
+        } else {
+          console.error(err);
+          return res
+            .status(500)
+            .send("An error occurred while processing your request.");
+        }
       }
+      return res.status(200).send("Entity updated successfully.");
     }
   );
 };
