@@ -1,10 +1,12 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import {Person, House, LocationCity, Terrain, Construction, Event} from '@mui/icons-material';
+import { Tooltip } from '@mui/material';
 
 const Tab = (props) => {
     return(
         <li className="mr-3">
-            <a className={`inline-block py-2 px-4 no-underline ${props.isActive(`/${props.direction}`) ? 'text-zinc-100' : 'text-blue-950'} hover:text-zinc-300`} href={props.direction}>{props.text}</a>
+            <a className={`inline-block py-2 px-4 no-underline ${props.isActive(`/${props.direction}`) ? 'text-zinc-100' : 'text-blue-950'} hover:text-zinc-300`} href={props.direction}>{props.icon && props.icon}{props.text}</a>
         </li>
     )
 }
@@ -39,12 +41,12 @@ const Header = () => {
                 </div>
                 <div className={`w-full md:flex md:items-center md:w-auto ${isMenuOpen ? '' : 'hidden'}`}>
                     <ul className="list-reset flex flex-col md:flex-row justify-between flex-1 md:flex-none items-center">
-                        <Tab isActive={isActive} direction="Persona" text="Personas"/>
-                        <Tab isActive={isActive} direction="Municipio" text="Municipios"/>
-                        <Tab isActive={isActive} direction="Vivienda" text="Viviendas"/>
-                        <Tab isActive={isActive} direction="Departamento" text="Departamentos"/>
-                        <Tab isActive={isActive} direction="Proyecto" text="Proyectos"/>
-                        <Tab isActive={isActive} direction="Evento" text="Eventos"/>
+                        <Tab isActive={isActive} direction="Persona" text="Personas" icon={<Person/>}/>
+                        <Tab isActive={isActive} direction="Municipio" text="Municipios" icon={<LocationCity/>}/>
+                        <Tab isActive={isActive} direction="Vivienda" text="Viviendas"icon={<House/>}/>
+                        <Tab isActive={isActive} direction="Departamento" text="Departamentos" icon={<Terrain/>}/>
+                        <Tab isActive={isActive} direction="Proyecto" text="Proyectos" icon={<Construction/>}/>
+                        <Tab isActive={isActive} direction="Evento" text="Eventos" icon={<Event/>}/>
                     </ul>
                 </div>
             </div>
