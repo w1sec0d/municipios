@@ -2,14 +2,19 @@ const database = require("../../database.js");
 
 // ----------------TRAER TODAS LAS PERSONAS CON ATRIBUTOS----------
 const getPersona = async (req, res) => {
-  database.query("SELECT v.*, vivienda.direccion AS direccion_vivienda FROM PERSONA v JOIN VIVIENDA vivienda ON v.VIVIENDA_id_vivienda = vivienda.id_vivienda", (err, rows) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("An error occurred while processing your request.");
-      return;
+  database.query(
+    "SELECT v.*, vivienda.direccion AS direccion_vivienda FROM PERSONA v JOIN VIVIENDA vivienda ON v.VIVIENDA_id_vivienda = vivienda.id_vivienda",
+    (err, rows) => {
+      if (err) {
+        console.error(err);
+        res
+          .status(500)
+          .send("An error occurred while processing your request.");
+        return;
+      }
+      res.send(rows);
     }
-    res.send(rows);
-  });
+  );
 };
 //-----------------------------------------------------------------
 
@@ -27,7 +32,6 @@ const insertPersona = async (req, res) => {
   } = req.body;
 
   //Si las llaves foraneas no se envian, se asigna null al igual que el sexo.
-  const viviendaID = VIVIENDA_id_vivienda ? VIVIENDA_id_vivienda : null;
   const personaID = PERSONA_id_persona ? PERSONA_id_persona : null;
   const sx = sexo ? sexo : null;
 
@@ -47,22 +51,31 @@ const insertPersona = async (req, res) => {
       }
     }
 
-    const viviendaID = rows[0].id_vivienda;
+    let viviendaID;
+
+    if (!municipio_nombre || !rows || !rows[0]) {
+      viviendaID = "null";
+    } else {
+      viviendaID = rows[0].id_vivienda ?? "null";
+    }
 
     const query = `INSERT INTO PERSONA 
       (id_persona, nombre, telefono, edad, sexo, VIVIENDA_id_vivienda, PERSONA_id_persona) 
-      VALUES ('${id_persona}','${nombre}', '${telefono}', ${edad}, 
+      VALUES (${id_persona},'${nombre}', '${telefono}', ${edad}, 
       '${sx}', ${viviendaID}, ${personaID})`;
+
+    console.log({ query });
 
     database.query(query, (err, rows) => {
       if (err) {
         console.error(err);
-        res.status(500).send("An error occurred while processing your request.");
+        res
+          .status(500)
+          .send("An error occurred while processing your request.");
         return;
       }
       res.status(200).send("Person inserted successfully.");
     });
-
   });
 };
 //-----------------------------------------------------------------
@@ -85,24 +98,29 @@ const deletePersona = async (req, res) => {
 const updatePersona = async (req, res) => {
   const { id } = req.params;
   const {
+    id_persona,
     nombre,
     telefono,
     edad,
     sexo,
     VIVIENDA_id_vivienda,
     PERSONA_id_persona,
-    municipio_nombre
+    municipio_nombre,
   } = req.body;
 
   // Validar que al menos un campo sea enviado. y agregarlos a un array para luego actualizarlos.
   let fieldsToUpdate = [];
+  if (id_persona) fieldsToUpdate.push(`id_persona = '${id_persona}'`);
   if (nombre) fieldsToUpdate.push(`nombre = '${nombre}'`);
   if (telefono) fieldsToUpdate.push(`telefono = '${telefono}'`);
   if (edad) fieldsToUpdate.push(`edad = ${edad}`);
   if (sexo !== undefined) {
     fieldsToUpdate.push(`sexo = ${sexo === null ? "NULL" : `'${sexo}'`}`);
   }
-  if (municipio_nombre) fieldsToUpdate.push(`VIVIENDA_id_vivienda = (SELECT id_vivienda FROM VIVIENDA WHERE direccion = '${municipio_nombre}')`);
+  if (municipio_nombre)
+    fieldsToUpdate.push(
+      `VIVIENDA_id_vivienda = (SELECT id_vivienda FROM VIVIENDA WHERE direccion = '${municipio_nombre}')`
+    );
   if (VIVIENDA_id_vivienda !== undefined) {
     fieldsToUpdate.push(
       `VIVIENDA_id_vivienda = ${

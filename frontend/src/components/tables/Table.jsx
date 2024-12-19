@@ -75,28 +75,34 @@ const Table = ({ apiRoute }) => {
   const [view, setView] = useState(null);
   const [apiId, setApiId] = useState(null);
   const [title, setTitle] = useState(null);
-  const [selectedValue, setSelectedValue] = useState('');
-  const [selectedValue2, setSelectedValue2] = useState('');
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue2, setSelectedValue2] = useState(null);
   // Id name of the table "id_persona", "id_vivienda" etc
   const idName = "id_" + apiRoute.slice(0, -1);
 
   const handleEdit = async (info) => {
-    console.log("editing:");
-    console.log(info);
+    console.log("TRANSFORMED");
 
     const transformedValues = transformEmptyStringsToNull({
       ...info.values,
       [apiRoute == 'municipios' ? 'gobernador': 'municipio_nombre']: selectedValue,
       departamento_nombre: selectedValue2,
-      [idName]: info.row.index + 1
-    });
+    });    
+    console.log("TRANSFORMED");
+      
 
+    console.log({transformedValues});
+    
     try {
       await validationSchemas[apiRoute].validate(transformedValues, {
         abortEarly: false,
       });
       const id = info.row.original[idName] ?? transformedValues[idName]
+      console.log(info.row);
+
+      
       const res = await updateData(apiRoute, id, transformedValues);
+      
       // Only if the update was successful
       if(res.status === 200){
         showNotification("success", "Editado exitosamente");
@@ -113,7 +119,7 @@ const Table = ({ apiRoute }) => {
   };
   const handleCreate = async (info) => {
     console.log("creating:");
-    console.log(info.values);
+    console.log({info});
     const transformedValues = transformEmptyStringsToNull({...info.values, 
       [apiRoute == 'municipios' ? 'gobernador': 'municipio_nombre']: selectedValue,
       departamento_nombre: selectedValue2,});
@@ -196,6 +202,8 @@ const Table = ({ apiRoute }) => {
         apiRoute={apiRoute == 'proyectos' ||apiRoute =='eventos'? null: apiRoute} 
         selectedValue={selectedValue}
         selectedValue2={selectedValue2} 
+        setSelectedValue={setSelectedValue}
+        setSelectedValue2={setSelectedValue2}
         handleDropdownChange={handleDropdownChange}
         handleDropdownChange2={handleDropdownChange2}/>
     ),

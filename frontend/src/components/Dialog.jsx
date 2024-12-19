@@ -48,11 +48,11 @@ const CEDialog = (props) => {
           })}
         {props.apiRoute == 'departamentos' || props.apiRoute == null ? null: <>
             <p className='text-left text-zinc-300 mt-2 '>{apiCheck.charAt(0).toUpperCase() + apiCheck.slice(1).split('s')[0]}</p>
-            <Options apiRoute={apiCheck} value={props.selectedValue} onChange={props.handleDropdownChange}/>
+            <Options apiRoute={apiCheck} value={props.selectedValue} onChange={props.handleDropdownChange} setSelectedValue={props.setSelectedValue} setSelectedValue2={props.setSelectedValue2}/>
         </>} 
         {props.apiRoute == 'municipios' ?<>
             <p className='text-left text-zinc-300 mt-2 '>Departamento</p>
-            <Options apiRoute={'departamentos'} value={props.selectedValue2} onChange={props.handleDropdownChange2}/> 
+            <Options apiRoute={'departamentos'} value={props.selectedValue2} onChange={props.handleDropdownChange2} setSelectedValue={props.setSelectedValue} setSelectedValue2={props.setSelectedValue2}/> 
         </>:null}
 
         </DialogContent>

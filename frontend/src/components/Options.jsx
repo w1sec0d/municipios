@@ -15,6 +15,7 @@ const Options = ({apiRoute, ...props }) => {
     console.log(options)
     return (
       <select className="text-black p-4" {...props}>
+        <option selected={true}></option>
         {options.map((option, index) => (
             <option key={index} value={option}>{option}</option>
         ))}

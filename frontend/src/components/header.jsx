@@ -6,7 +6,7 @@ import { Tooltip } from '@mui/material';
 const Tab = (props) => {
     return(
         <li className="mr-3">
-            <a className={`flex flex-row py-2 px-4 no-underline ${props.isActive(`/${props.direction}`) ? 'text-zinc-100' : 'text-blue-950'} hover:text-zinc-300`} href={props.direction}>{props.icon && props.icon}<p>{props.text}</p></a>
+            <a className={` flex flex-row py-2 px-4 no-underline ${props.isActive(`/${props.direction}`) ? 'text-zinc-100' : 'text-blue-950'} hover:text-zinc-300`} href={props.direction}>{props.icon && props.icon}<p>{props.text}</p></a>
         </li>
     )
 }

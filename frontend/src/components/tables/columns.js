@@ -3,7 +3,6 @@ const columns = {
     {
       accessorKey: "id_persona", // Match the key in the data
       header: "ID", // Displayed in the table header
-      enableEditing: false,
     },
     {
       accessorKey: "nombre",
@@ -24,7 +23,7 @@ const columns = {
     {
       accessorKey: "direccion_vivienda",
       header: "Dirección Vivienda",
-    }
+    },
     // {
     //   accessorKey: "VIVIENDA_id_vivienda",
     //   header: "ID Vivienda",
@@ -98,13 +97,11 @@ const columns = {
   ],
   viviendas: [
     {
-
       accessorKey: "municipio_nombre",
       header: "Municipio",
 
       accessorKey: "id_vivienda",
       header: "ID",
-
     },
     {
       accessorKey: "direccion",
