@@ -48,8 +48,8 @@ const insertMunicipio = async (req, res) => {
     }
 
     database.query(
-      `INSERT INTO MUNICIPIO (nombre, area, presupuesto, PERSONA_id_persona, DEPARTAMENTO_id_departamento) VALUES ( ?, ?, ?, ?, ?)`,
-      [nombre, area, presupuesto, personaId, departamentoId],
+      `INSERT INTO MUNICIPIO (id_municipio,nombre, area, presupuesto, PERSONA_id_persona, DEPARTAMENTO_id_departamento) VALUES (?, ?, ?, ?, ?, ?)`,
+      [id_municipio, nombre, area, presupuesto, personaId, departamentoId],
       (err, result) => {
         if (err) {
           if (err.code === "ER_DUP_ENTRY") {
