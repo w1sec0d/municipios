@@ -81,30 +81,19 @@ const updateHouse = async (req, res) => {
   if (direccion) fieldsToUpdate.push(`direccion = '${direccion}'`);
   if (capacidad) fieldsToUpdate.push(`capacidad = '${capacidad}'`);
   if (niveles) fieldsToUpdate.push(`niveles = '${niveles}'`);
-  if (municipio_nombre) {
-    const checkMunicipioQuery =
-      "SELECT id_municipio FROM MUNICIPIO WHERE nombre = ?";
-    database.query(checkMunicipioQuery, [municipio_nombre], (err, results) => {
-      if (err) {
-        console.error(err);
-        return res
-          .status(500)
-          .send("An error occurred while processing your request.");
-      }
-      if (results.length === 0) {
-        return res
-          .status(400)
-          .send("The specified municipality does not exist.");
-      }
-      const id_municipio = results[0].id_municipio;
-      fieldsToUpdate.push(`MUNICIPIO_id_municipio = '${id_municipio}'`);
-    });
-  }
-
+  if (municipio_nombre)
+    fieldsToUpdate.push(
+      `MUNICIPIO_id_municipio = (SELECT id_municipio FROM MUNICIPIO WHERE nombre = '${municipio_nombre}')`
+    );
   if (fieldsToUpdate.length === 0) {
     res.status(400).send("No fields to update.");
     return;
   }
+
+  console.log(
+    `UPDATE VIVIENDA SET ${fieldsToUpdate.join(", ")} WHERE id_vivienda = ${id}`
+  );
+  console.log({ fieldsToUpdate });
 
   database.query(
     `UPDATE VIVIENDA SET ${fieldsToUpdate.join(
